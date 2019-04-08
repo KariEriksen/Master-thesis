@@ -1,0 +1,96 @@
+\documentclass[12pt, twoside]{report}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{commath}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+
+% Packages from derivations_fullproblem.tex
+\usepackage[squaren]{SIunits}
+\usepackage{a4wide}
+\usepackage{array}
+\usepackage{cancel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+
+% Parameters for displaying code.
+\lstset{language=C++}
+\lstset{basicstyle=\ttfamily\small}
+\lstset{frame=single}
+\lstset{keywordstyle=\color{red}\bfseries}
+\lstset{commentstyle=\itshape\color{blue}}
+\lstset{showspaces=false}
+\lstset{showstringspaces=false}
+\lstset{showtabs=false}
+\lstset{breaklines}
+
+\title{{Many-body $^4$He boson with Restricted Boltzmann Machine}\\
+{\large University of Oslo}\\
+\includegraphics[scale=1.0]{uio_logo2.eps}
+}
+\author{Kari Eriksen}
+\date{Desember 2019}
+
+\begin{document}
+
+\maketitle
+
+\chapter*{Abstract}
+Abstract goes here
+
+\tableofcontents
+ 
+\chapter*{Dedication}
+ 
+\chapter*{Declaration}
+I declare that..
+ 
+\chapter*{Acknowledgements}
+I want to thank...
+
+\chapter{Introduction}
+\input{chapters/introduction}
+
+\part{Theory}
+ 
+\chapter{Many-body quantum theory}
+\input{chapters/many_body_theory.tex}
+ 
+\chapter{VMC and DMC}
+\input{chapters/VMC.tex}
+ 
+\chapter{Machine Learning: RBM/DBM}
+\input{chapters/RBM.tex}
+
+\part{Implementation and results}
+
+\chapter{Implementation}
+\input{chapters/implementation.tex}
+
+\chapter{Results}
+\input{chapters/results.tex}
+ 
+\chapter{Conclusion}
+\input{chapters/conclusion}
+
+\appendix
+\chapter{Appendix Title}
+\input{chapters/appendix}
+
+\end{document}

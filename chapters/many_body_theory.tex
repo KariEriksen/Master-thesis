@@ -1,0 +1,21 @@
+\section{The Bose-Einstein Condensation}
+
+\section{Ansatz for the wavefunction and the hamiltonian}
+
+We are studying a system of two electrons confined in a harmonic oscillator trap described by the Hamiltonian 
+
+\begin{equation}\label{eq:hamilt}
+\hat{H} = \sum_{i=1}^N \left( - \frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i^2 \right) + \sum_{i<j} \frac{1}{r_{ij}}
+\end{equation}
+
+where the first sum is the standard harmonic oscillator part and the last is the interacting part between the electrons and $N$ represent the number of particles. $\omega$ is the oscillator frequency of the trap and $r_i$ is the position of particle $i$, whereas $r_{ij}$ is the distance between the particles and given as $r_{ij} = |\mathbf{r_i} - \mathbf{r_j}|$. \\
+Our wave function is given from the energy of the restricted Boltzmann machine, see \eqref{eq:E_rbm}, which is the joint energy functional between the visible and hidden nodes. From the marginal probability of the joint probability distribution, see \eqref{eq:F_rbm_marg}, we get our wave equation.                     
+
+\begin{align}\label{eq:F_rbm}
+\Psi(X) &= F_{rbm}(X) \\
+&= \frac{1}{Z} \exp \left( -\sum_{i}^{M} \frac{(X_i - a_i)^2}{2 \sigma^2} \right) \prod_{j}^{N} \left( 1 + \exp \left( b_j + \sum_{i}^{M} \frac{X_i \omega_{ij}}{\sigma^2} \right) \right)
+\end{align}
+
+Here $Z$ is the partition function, $X_i$ represents the visible nodes running up to $M$, and $a_i$ and $b_j$ are the biases described in the section below, \eqref{sec:rbm}, where number of hidden nodes $j$ runs up to $N$. $\omega_{ij}$ is an $M \times N$ matrix holding the weights connecting the visible nodes with the hidden and $\sigma$ is the standard deviation of the noise in our model. \\
+
+\section{Interaction}
