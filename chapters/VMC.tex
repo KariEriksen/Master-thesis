@@ -115,7 +115,7 @@ and we must calculate the drift force in order to find new moves and the Green's
 
 \section{Gradient Descent}
 
-Like most problems in physics the variational quantum problem is one of optimization. In this project we are optimizing the expectation value of the energy over the parameter $\alpha$. In the naive implementation we simply span a reasonable range of $\alpha$ \footnote{an implementation of which can be seen in the file \lstinline{main_b.cpp}}. For a multi-parameter variational problem this approach is too computationally expensive to implement in most cases. To remedy this problem iterative gradient methods have been developed to make more intelligent choices for the variational parameters. In this project we have opted to implement a simple gradient descent method. The gradient descent is ordinarily presented as 
+Like most problems in physics the variational quantum problem is one of optimization. In this project we are optimizing the expectation value of the energy over the parameter $\alpha$. In the naive implementation we simply span a reasonable range of $\alpha$. For a multi-parameter variational problem this approach is too computationally expensive to implement in most cases. To remedy this problem iterative gradient methods have been developed to make more intelligent choices for the variational parameters. In this project we have opted to implement a simple gradient descent method. The gradient descent is ordinarily presented as 
 
 \begin{equation}
 \alpha_{i+1} = \alpha_i -\gamma \frac{\partial \langle E_L (\alpha_i) \rangle}{\partial \alpha_i}
@@ -126,7 +126,7 @@ Like most problems in physics the variational quantum problem is one of optimiza
 \gamma_i = (\alpha_{i+1} - \alpha_i) \cdot \frac{1}{\expect{E_L}^\alpha_{i+1} - \expect{E_L}^\alpha_i}
 \end{equation}
 
-\noindent We also introduce the notation $\frac{\partial \langle E_L^i \rangle}{\partial \alpha} = \expect{E_L}^\alpha_{i}$ for brevity, and the same notation will be used for the tiral wavefunction $\psi_T$. The partial derivative itself can be found by the equation\footnote{The equation was retrieved from the lecture notes} 
+\noindent We also introduce the notation $\frac{\partial \langle E_L^i \rangle}{\partial \alpha} = \expect{E_L}^\alpha_{i}$ for brevity, and the same notation will be used for the tiral wavefunction $\psi_T$. The partial derivative itself can be found by the equation
 
 \begin{equation}
 \expect{E_l}^\alpha_{i} = 2 \left(\expect{\frac{\psi^\alpha}{\psi} E_L}^i - \expect{\frac{\psi^\alpha}{\psi}}\expect{E_L}^i \right)
@@ -140,7 +140,7 @@ Like most problems in physics the variational quantum problem is one of optimiza
 &= \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)
 \end{align}
 \noindent This holds for both the interactive and non-interactive case since the correlation wavefunction, $f(r_i, r_j)$, does not have any dependence on $\alpha$\\
-In the program the only addition to make is the computation of two additional expecation values\footnote{implemented in \lstinline{vmc.cpp}}. Empirically we've also seen that we can reduce the number of MC-cycles quite drastically and still get a good convergence to the optimal $\alpha$. In summary gradient descent and other associated methods allows for a radical speedup in estimation of the optimal values of the variational parameters. The implementation of this method can be found in the file \lstinline{main_f.cpp}.
+In the program the only addition to make is the computation of two additional expecation values. Empirically we've also seen that we can reduce the number of MC-cycles quite drastically and still get a good convergence to the optimal $\alpha$. In summary gradient descent and other associated methods allows for a radical speedup in estimation of the optimal values of the variational parameters.
 
 
 \section{Blocking Method}
@@ -185,3 +185,7 @@ $\mathbf{R_m} = \mathbf{R}$\\
 \end{algorithm} 
 
 Since the derivative involves three function calls for each particle the numerical derivative will obviously be quite computationally expensive. It is noted  that the differentiation could be substantially optimized from the version included in the code, but is outside the scope of this project. 
+
+\section{Diffusion Monte Carlo}
+
+Numerical method solves the many-body Schrödinger equation for the ground-state of a system of boson exactly. 

@@ -30,3 +30,15 @@ F_{rbm} (\mathbf{X}) &= \sum_{\mathbf{h}} F_{rbm} (\mathbf{X}, \mathbf{h}) \\
 Since we have no data to train we use the technique of reinforcement learning. We feed the network with input using Monte Carlo method and based on the variational principle we find the ground state of the system by seeking the configuration that gives the lowest quantum mechanical energy. According to this principle we change the weights and biases by gradient descent method and hopefully the network will converge towards the correct state.  
 
 \section{Gibbs Sampling}
+
+We represent the wave equation on a new form. This requires that the wave function is positive definite. 
+
+\begin{equation}\label{eq:Gibbs}
+\psi(x) = \sqrt{(F_{rbm})}
+\end{equation}
+
+Rather than on the form we have used before.
+
+\begin{equation}\label{eq:Gibbs}
+\psi(x) = (F_{rbm})
+\end{equation}
