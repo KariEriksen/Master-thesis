@@ -79,6 +79,8 @@ calculate $|\Psi_T(\mathbf{R})|^2$\;
  \caption{Monte Carlo with Metropolis-Hastings}\label{alg:metro}
 \end{algorithm}
 
+r is a random number drawn from the distribution $r \in [0, \Lambda]$ with $\Lambda < \infty$
+
 $$\frac{A_{j \rightarrow i}}{A_{i \rightarrow j}} = \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}.$$
 
 We choose to accept when the acceptance is bigger than 1. 
@@ -123,13 +125,13 @@ Like most problems in physics the variational quantum problem is one of optimiza
 
 
 \begin{equation}
-\gamma_i = (\alpha_{i+1} - \alpha_i) \cdot \frac{1}{\expect{E_L}^\alpha_{i+1} - \expect{E_L}^\alpha_i}
+\gamma_i = (\alpha_{i+1} - \alpha_i) \cdot \frac{1}{E_L^{\alpha_{i+1}} - E_L^{\alpha_i}}
 \end{equation}
 
-\noindent We also introduce the notation $\frac{\partial \langle E_L^i \rangle}{\partial \alpha} = \expect{E_L}^\alpha_{i}$ for brevity, and the same notation will be used for the tiral wavefunction $\psi_T$. The partial derivative itself can be found by the equation
+\noindent We also introduce the notation $\frac{\partial \langle E_L^i \rangle}{\partial \alpha} = E_L^{\alpha_{i}}$ for brevity, and the same notation will be used for the trial wave function $\psi_T$. The partial derivative itself can be found by the equation
 
 \begin{equation}
-\expect{E_l}^\alpha_{i} = 2 \left(\expect{\frac{\psi^\alpha}{\psi} E_L}^i - \expect{\frac{\psi^\alpha}{\psi}}\expect{E_L}^i \right)
+E_l^{\alpha_{i}} = 2 \left(\frac{\psi^{\alpha}}{\psi} E_L^i - \frac{\psi^\alpha}{\psi} E_L^i \right)
 \end{equation} 
 
 \noindent Wherein the fraction of the partial derivative of the wavefunction by the wavefunction must be derived, which is trivial with the ansatz of the wavefunction. 
