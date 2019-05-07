@@ -1,19 +1,74 @@
-\section{The Schrödinger equation}
+\section{Canonical quantization}
 
-Hamiltonian 
+Moving from a classical Hamiltonian description to a non-relativistic quantum mechanical description of the particle through a procedure called canonical quantization.(ref. Simen Kvaal)
+
+Canonical communtation relations 
+
+\begin{equation} \label{eq:commutation}
+\{q_k, p_l\} = \delta_{kl}
+\end{equation}
+
+Any coordinate system $\epsilon = (q,p)$ we wish to use that satisfies \ref{eq:commutation} can be called canonical. (ref. Simen Kvaal)
+
+Classical state: point in phase space
+
+Quantum state: complex-valued wave function in an infinite dimensional Hilbert space, i.e. a complete vector space with an inner product.
+Standard choice of Hilbert space is the space of square integrable function, $L^2$, where the wave function $\psi$ is a function depending on all coordinates:
+
+\begin{equation}
+\psi = \psi (x_1, x_2, \cdots, x_N)
+\end{equation}
+
+where $(x_1, x_2, \cdots , x_N) \in X^N$ is a point in the configuration space of N particles. 
+
+The wavefunction is a map 
+
+\begin{equation}
+\psi : X^N \longrightarrow \mathbb{C}
+\end{equation}
+
+An observable is a $\textit{self-adjoint operator}$ (Hermitian operator) $\hat{\Omega}$, and its value in the state $\psi$ is the expectation value. 
+
+Expectation value: 
+
+\begin{equation}
+\expval{\Omega} = \expval{\hat{\Omega}}{\psi} = \int \psi (x_1, \cdots , x_N)\ast [\hat{\Omega} \psi (x_1, \cdots, x_N)] dx_1 \cdots dx_N
+\end{equation}
 
 \begin{equation}
 i \hbar \frac{\partial}{\partial t} \ket{\psi(t)} = \hat{H} \ket{\psi(t)}
 \end{equation}
 
-\section{Canonical quantization}
+Replace classically canonical coordinates $\epsilon = (q, p)$ with operators $(\hat{q}, \hat{p})$ such that
 
-Canonical communtation relations 
+\begin{equation}
+\{q_j, p_k\} = \delta_{jk} \Rightarrow [\hat{q_j}, \hat{p_k}] = i \hbar \delta_{jk}
+\end{equation}
 
 \section{Second quantization}
 
-Creation and annihilation operators
+Now the particles themselves are discrete quanta created and destroyed with creation and annihilation operators
+
+Position operator 
+
+\begin{equation}
+[\hat{r_i} \psi](x_1, \cdots, x_N) = r_i \psi (x_1, \cdots, x_N) 
+\end{equation}
+
+Momentum operator 
+
+\begin{equation}
+[\hat{p_i} \psi](x_1, \cdots, x_N) = -i \hbar \nabla_i \psi (x_1, \cdots, x_N) 
+\end{equation}
 
 Fock space
+
+\section{The Schrödinger equation}
+
+The many-body Hamiltonian (s. 12) 
+
+one-body operator  
+
+two-body operator
 
 \section{Wave function}
