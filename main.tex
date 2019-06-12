@@ -16,6 +16,7 @@
 \usepackage{textcomp}
 \usepackage{float}
 \usepackage{listings}
+\usepackage[backend=biber,sorting=none,style=numeric-comp]{biblatex}
 \usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
 
 % Packages from derivations_fullproblem.tex
@@ -29,6 +30,17 @@
 \usepackage{graphicx}
 \usepackage{enumerate}
 \usepackage{physics}
+
+% Ref file
+\addbibresource{ref.bib}
+
+% References ----------------------------------------------------------------- %
+\newcommand{\Fig}[1]{Fig.\ \ref{fig:#1}}
+\newcommand{\fig}[1]{Fig.\ \ref{fig:#1}}
+\newcommand{\eq} [1]{Eq.\ (\ref{eq:#1})}
+\newcommand{\Eq} [1]{Eq.\ (\ref{eq:#1})}
+\newcommand{\tab}[1]{Table \ref{tab:#1}}
+\newcommand{\Tab}[1]{Table \ref{tab:#1}}
 
 % Parameters for displaying code.
 \lstset{language=C++}
@@ -95,4 +107,5 @@ Abstract goes here
 \chapter{Appendix Title}
 \input{chapters/appendix}
 
+\printbibliography[heading=bibintoc]
 \end{document}

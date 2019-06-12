@@ -1,3 +1,5 @@
+Some introduction containing historical information and stuff, and motivation for this section.
+
 \section{Ideal Bose gas}
 Bosons are quantum particles with integer spin, meaning they follow Bose-Einstein statistics. 
 Elementary: Higgs boson, photon, gluon, gravition
@@ -6,11 +8,12 @@ Composite: hydrogen, mesons, nucleus of deuterium
 
 Consider a dilute Bose gas where the inter-particle distance is much greater than the scattering length. It can be approximated by a mean field theory. We describe it by a simple hard-sphere effective potential. (Master Joachim)
 
+Bogoliubov - 
+
+Ground state energy
 
 \section{The Bose-Einstein Condensation}
 The ability of bosons at low temperature to collectively inhabit the same energy state, compared to fermions who are restricted to the Pauli exclusion principle.
-
-The Bose-Einstein condensation ground state can be described by the Gross-Pitaevskii equation, which uses the Hartree-Fock approximation and the pseduopotential intereaction model. (wiki) 
 
 Free Bose gas - 
 
@@ -22,12 +25,46 @@ BEC in interaction -
 
 BEC in trap - 
 
+The Bose-Einstein condensation ground state can be described by the Gross-Pitaevskii equation, which uses the Hartree-Fock approximation and the pseduopotential intereaction model. (wiki) 
+A a many-body boson system, the Gross-Pitaevskii approach is a mean-field approach. (MBBS)
+If the spacing between the particles are greater than the scattering length (in the so-called dilute limit), then one can approximate the true interaction potential that features in this equation by a psedopotential. READ more about why this is.
+
+The wave function in the Hartree-Fock approximation of a system of N bosons is represented by the product of single-particle wave functions $\psi$
+
+\begin{equation}
+\psi(r_1, r_2, \cdots, r_N) = \psi(r_1) \psi(r_2) \cdots \psi(r_N)
+\end{equation}
+
+The pseudopotential model Hamiltonian of the system is given as 
+
+\begin{equation}
+H = \sum_{i=1}^N \left( -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial r_i^2} + V(r_i) \right) + \sum_{i<j} \frac{4 \pi \hbar^2 a_s}{m} \delta (r_i - r_j)
+\end{equation}
+
+m is the mass of the boson, V is the external potential, $a_s$ is the boson-boson scattering length and $\delta(r)$ the Dirac delta-function. This is an effective potential, the original  with modifications 
+
+The Gross-Pitaevskii equation reads, 
+
+\begin{equation}
+\left( -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial r^2} + V(r) + \frac{4 \pi \hbar^2 a_s}{m}|\psi(r)|^2 \right) \psi(r) = \mu \psi (r)
+\end{equation}
+
+Se 104 MBBS
+
+Solutions: free particle V(r) = 0
+
+Soliton?
+
+Thomas-Fermi approximation
+
+Bogoliubov approximation
+
 Interacting Bose gas - Landau's phenomenological theory of superfluidity. Based on the idea that a quantum liquid remains a classical fluid even at zero temperature  and that the classical hydrodynamical laws remain valid. (Many body boson system.) 
 Many models have been suggested to create a microscopical theory of the superfluidity. Vortex ring model, hard-sphere model, guassian cluster approach. (wiki)
 
 The properties of these liquids are described in terms of the spectrum of the collective excitations.
 
-\section{Ansatz for the wavefunction and the hamiltonian}
+\section{The wave function}
 We are studying a system of two electrons confined in a harmonic oscillator trap described by the Hamiltonian 
 
 \begin{equation}\label{eq:hamilt}

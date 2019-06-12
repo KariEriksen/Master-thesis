@@ -1,4 +1,6 @@
-\section{Markoc chains}
+Some introduction containing historical information and stuff, and motivation for this section.
+
+\section{Markov chains}
 
 \section{Variational Monte Carlo}
 
@@ -117,32 +119,66 @@ and we must calculate the drift force in order to find new moves and the Green's
 
 \section{Gradient Descent}
 
-Like most problems in physics the variational quantum problem is one of optimization. In this project we are optimizing the expectation value of the energy over the parameter $\alpha$. In the naive implementation we simply span a reasonable range of $\alpha$. For a multi-parameter variational problem this approach is too computationally expensive to implement in most cases. To remedy this problem iterative gradient methods have been developed to make more intelligent choices for the variational parameters. In this project we have opted to implement a simple gradient descent method. The gradient descent is ordinarily presented as 
+The variational quantum problem is highly dependent on a good optimization algorithm. One of the more famous and widely used is the gradient descent. It is a family of minimization methods where the idea is to iteratively adjust the parameters in the direction where the gradient of the cost function, usually an energy function, is large and negative \cite{mehta2019high}. 
+If a multi-variable function $E(\theta)$ is defined and differentiable in a neighborhood of a point $\theta$, then $E(\theta)$ decreases fastest if one goes from $\theta$ in the direction of the negative gradient of $E$ at $\theta$, $-\nabla E(\theta)$, (wiki). This way we move towards a local minimum in the configurational space. And the gradient descent can be represented as
 
-\begin{equation}
-\alpha_{i+1} = \alpha_i -\gamma \frac{\partial \langle E_L (\alpha_i) \rangle}{\partial \alpha_i}
+\begin{equation} \label{eq:theta}
+\mathbf{\theta}_{t+1} = \mathbf{\theta}_t - \eta_t \nabla_{\mathbf{\theta}} E(\mathbf{\theta}_t),
 \end{equation}
 
+where $\eta_t$ is called the step length/learning rate, it controls how large steps we take within the method.
+The easiest way to implement the learning rate is by giving it a constant value. One can however introduce a changing learning rate. This can help us avoid problems like overshooting or oscillating between two points. Such adaptive step size methods can be Newton's method, backtracking line search, Cauchy or Barzilai and Borwein. To be continued. 
+
+We begin by making a guess on the parameter $\theta$, then we follow \eq{theta}. The partial derivative of the energy with respect to the variational parameter can be found through the following equation.
 
 \begin{equation}
-\gamma_i = (\alpha_{i+1} - \alpha_i) \cdot \frac{1}{E_L^{\alpha_{i+1}} - E_L^{\alpha_i}}
+\frac{dE_L}{d\alpha} = 2 \left( \left\langle \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} E_L \right\rangle  - \left\langle  \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} \right\rangle \langle E_L \rangle \right)
 \end{equation}
 
-\noindent We also introduce the notation $\frac{\partial \langle E_L^i \rangle}{\partial \alpha} = E_L^{\alpha_{i}}$ for brevity, and the same notation will be used for the trial wave function $\psi_T$. The partial derivative itself can be found by the equation
+Here we will need to calculate the expectation value of the local energy as well as the partial derivative of the wave function, and their product. The term $\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha}$ is fairly easy given the wave function we are considering. 
 
-\begin{equation}
-E_l^{\alpha_{i}} = 2 \left(\frac{\psi^{\alpha}}{\psi} E_L^i - \frac{\psi^\alpha}{\psi} E_L^i \right)
-\end{equation} 
-
-\noindent Wherein the fraction of the partial derivative of the wavefunction by the wavefunction must be derived, which is trivial with the ansatz of the wavefunction. 
-
-
-\begin{align}
-\frac{\psi^\alpha}{\psi} &= \frac{\psi \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\psi} \\
-&= \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)
+\begin{align} \label{}
+\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} &= \frac{-\Psi_T \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\Psi_T} \\
+&= -\prod_i^N (x_i^2 + y_i^2 + \beta z^2_i) \label{eq:frac_deri_wf}
 \end{align}
-\noindent This holds for both the interactive and non-interactive case since the correlation wavefunction, $f(r_i, r_j)$, does not have any dependence on $\alpha$\\
-In the program the only addition to make is the computation of two additional expecation values. Empirically we've also seen that we can reduce the number of MC-cycles quite drastically and still get a good convergence to the optimal $\alpha$. In summary gradient descent and other associated methods allows for a radical speedup in estimation of the optimal values of the variational parameters.
+
+Since the correlation function $f(a, r_{ij})$ of the wave function is independent of the variational parameter $\alpha$, \eq{frac_deri_wf} holds for the interactive case as well.
+
+The last step of the algorithm is to check if the absolute value of the gradient squared is smaller or larger than some given small number $\epsilon$. If larger then we continue the process, if smaller we consider our result good enough. 
+
+\section{Stochastic gradient descent}
+
+In this project we are dealing with different types of cost functions. Depending on the method we use the minimization of the first derivative of the cost function is done differently. In the case of linear regression there is no use of numerical optimization methods as there exists an analytical solution to the derivative of the RSS. In the case of logistic regression and the neural network however, there are no closed form solutions to the cost functions being used. We therefore take use of two algorithms called gradient descent and stochastic gradient descent in order to update the parameters (weights).
+
+We call the function we wish to minimize $E(\theta)$, as energy is the quantity we in most problems within physics are trying to minimize. In linear regression this is the MSE (RSS) and in logistic regression it is the cross entropy. 
+
+\begin{equation}
+E(\mathbf{\theta}) = \sum_{i=1}^N e_i(X_i, \mathbf{\theta}) 
+\end{equation}
+
+\begin{equation} \label{eq:theta}
+\mathbf{\theta}_{t+1} = \mathbf{\theta}_t - \eta_t \nabla_{\mathbf{\theta}} E(\mathbf{\theta}_t)
+\end{equation}
+
+In regular gradient descent the algorithm simply updates the parameter $\theta_{t+1}$ according to \eq{theta}. Since the cost function tells us something about how well the parameters work for our regression model we seek to minimize its gradient. Updateing the parameters with \eq{theta} causes the model to moves closer to a local minima. The $\eta$ is called the learning rate and it decides how fast we want to move in the gradients direction. A to large learning rate may cause the model to diverge, but given an optimal value or close to one the gradient descent will converge towards the minima.  
+
+Usually the first parameters are given random variables. 
+
+Gradient descent has some drawbacks, one being that it can get stuck in one local minima and never reaching the correct one. Another is that it is sensitvive to initial conditions, so what values we give the parameters in the begining matters. It is also somewhat computational expensive. A solution to this is stochastic gradient descent.  
+
+\begin{equation}
+\nabla_{\theta} E(\theta) = \sum_i^n \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta}) \longrightarrow \sum_{i \in B_k} \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta})
+\end{equation}
+
+\begin{equation}
+\nabla_{\theta} E^{MB} (\theta) = \sum_{i \in B_k}^M \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta})
+\end{equation}
+
+\begin{equation} \label{theta_sgd}
+\theta_{t+1} = \mathbf{\theta_t} - \eta_t \nabla_{\theta} E^{MB} (\theta)
+\end{equation}
+
+Here we devide the data set into smaller minibatches of size $M$ creating $n/M$ batches. We denote these minibatches $B_k$ running from $k = 1...n/M$. Now we solve the gradient descent for the new minibatches and update the parameters according to \ref{theta_sgd}. Not do we only speed up the computational process, but it also introduces stochasticity. 
 
 
 \section{Blocking Method}
@@ -161,7 +197,7 @@ If we knew what $\tau$ was we could simply find our $\sigma$, but since we don't
 
 
 \section{Numerical differentiation}
-To evaluate the local energy of the system as defined in the project it necessary to compute the second derivative of the trial wavefunction $\psi_T$. We've chosen to implement the numerical differentiation as a finite difference approximation. Let $\mathbf{R}$ be the row major $N \times D$ matrix where $N$ is the number of particles and $D$ is their dimension. Then the second derivative can be found by the procedure listed as algorithm \ref{alg:nd}
+To evaluate the local energy of the system as defined in the project it necessary to compute the second derivative of the trial wave function $\psi_T$. We've chosen to implement the numerical differentiation as a finite difference approximation. Let $\mathbf{R}$ be the row major $N \times D$ matrix where $N$ is the number of particles and $D$ is their dimension. Then the second derivative can be found by the procedure listed as algorithm \ref{alg:nd}
 
 \begin{algorithm}
 \KwData{matrix $\mathbf{R}$}
@@ -183,11 +219,26 @@ $\mathbf{R_m} = \mathbf{R}$\\
 }
 \KwRet{$\frac{\Delta}{h^2} $}
 \BlankLine
-\caption{Numerical differentiation of the second order of the trial wavefunction on a system $\mathbf{R}$}\label{alg:nd}
+\caption{Numerical differentiation of the second order of the trial wave function on a system $\mathbf{R}$}\label{alg:nd}
 \end{algorithm} 
 
 Since the derivative involves three function calls for each particle the numerical derivative will obviously be quite computationally expensive. It is noted  that the differentiation could be substantially optimized from the version included in the code, but is outside the scope of this project. 
 
 \section{Diffusion Monte Carlo}
 
-Numerical method solves the many-body Schrödinger equation for the ground-state of a system of boson exactly. 
+Sources: Lecture notes, Morten \cite{hjorthjensen}
+
+Numerical method solves the many-body Schrödinger equation for the ground-state of a system of boson exactly. Since it does not depend on any a priori choice of wave function. In practice however, one needs a guess of the wave function that is within the range of the exact wave function, or the method would use an enormous amount of time to solve the problem. So in theory DMC can produce the exact ground state of any(?) system, but in practice this is not the case. 
+
+Diffusion Monte Carlo (DMC) is a method within a class of projector Monte Carlo methods. They are methods based on taking projections in Hilbert space. 
+
+\begin{equation}
+\exp^{(-\hat{H}t)} \psi(x) = \sum_i c_i \exp^{(-\epsilon_i t)}\phi_i(x) 
+\end{equation}
+
+Notes from Jørgens master: Green's function, an ensemble of walkers can be iterated by transitioning between configurations r and r' with probability given the greens function. Rewriting a trail wave function to something looking like a diffusion equation.
+
+Question: what does he mean by the diffusion eq. contributing to the variational method? Is this because of the time-dependent part? Or is this the case for all problems? 
+
+
+
