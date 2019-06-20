@@ -1,6 +1,9 @@
 Some introduction containing historical information and stuff, and motivation for this section.
 
 \section{Markov chains}
+Stochastic process; evolution of a random variable in time. Trajectory of successive points $\mathbf{R}_1, \mathbf{R}_2, ...,\mathbf{R}_N$ with an associated probability distribution $P(\mathbf{R}_N, ...,\mathbf{R}_2,\mathbf{R}_1)$.  
+
+A Markov chain is a stochastic process for which the conditional probability for the transition to a new point $\mathbf{R}_i$ depends on the previous point $\mathbf{R}_{i-1}$ \cite{toulouse2016introduction}. 
 
 \section{Variational Monte Carlo}
 
@@ -8,7 +11,9 @@ Monte Carlo simulations are widely used methods in numerical science that employ
 In this project we are taking a closer look at trapped bosons. We are given a trail wave function we assume is as close to the real case as possible, $\Psi_T(\mathbf{R};\alpha)$ where $\mathbf{R} = (\mathbf{R}_1, ... , \mathbf{R}_N)$ is the position of the different particles. 
 From quantum mechanics we know the probability distribution is given by the wave function. 
 
-$$P(\mathbf{R}; \alpha) = \frac{|\Psi_T(\mathbf{R};\alpha)|^2}{\int |\Psi_T(\mathbf{R};\alpha)|^2 d\mathbf{R}}$$
+\begin{equation} \label{eq:prob_dist}
+P(\mathbf{R}; \alpha) = \frac{|\Psi_T(\mathbf{R};\alpha)|^2}{\int|\Psi_T(\mathbf{R};\alpha)|^2 d\mathbf{R}}
+\end{equation} 
 
 Monte Carlo integration allow us to evaluate the integral at hand. The expectation value of the Hamiltonian is given as follows. 
 
@@ -24,13 +29,26 @@ $$\widehat{\mathbf{E}}_L(\mathbf{R};\alpha) = \frac{1}{\Psi_T(\mathbf{R};\alpha)
 
 Then the expectation value of the local energy is given by
 
-$$\langle \widehat{\mathbf{E}}_L\rangle = \int P(\mathbf{R}) \widehat{\mathbf{E}}_L d\mathbf{R} \approx \frac{1}{N} \sum_{i = 1}^N \mathbf{E_L}(x_i)$$
+$$\mathbf{E}_V \approx \langle \widehat{\mathbf{E}}_L\rangle = \int P(\mathbf{R}) \widehat{\mathbf{E}}_L d\mathbf{R} \approx \frac{1}{N} \sum_{i = 1}^N \mathbf{E_L}(x_i)$$
 
-where $N$ is the number of Monte Carlo cycles. Now we can calculate the probability distribution and the local energy. And for each cycle we propose a new configuration $\mathbf{R}_p$ for the system and hopefully we come closer to the ground state.
+where $N$ is the number of Monte Carlo cycles and the points $x_i$ are sampled using the Metropolis-Hastings algorithm. Now we can calculate the probability distribution and the local energy. And for each cycle we propose a new configuration $\mathbf{R}_p$ for the system and hopefully we come closer to the ground state.
 
 $$\mathbf{R}_p = \mathbf{R} + r \ast \Delta \mathbf{R}$$
 
+r is a random number drawn from the distribution $r \in [0, \Lambda]$ with $\Lambda < \infty$, OBS. find out why we choose [0,1] and $\Delta \mathbf{R}$ is the step length of the Metropolis method. Explain some further... 
+
+\cite{toulouse2016introduction}, the advantage of this approach is that it does not use an analytic integration involving the wave function, and thus does not impose severe constraints on the form of the wave function. 
+The wave function usually used in QMC are of the Jastrow-Slater form. 
+
+\begin{equation}
+\psi(\mathbf{R}) = J(\mathbf{R}) \phi (\mathbf{R})
+\end{equation}
+
+Two types of errors are associated with the VMC, the systematic error and  statistical uncertainty. The first error is difficult to know much about, but the latter one however we can calculate. See section on Blocking.
+
 \section{The Metropolis Algorithm}
+What is Metropolis algo? Explain some basics...
+Given a probability distribution force sampled values to follow this distribution. Employs a stochastic process, a Markov chain.
 
 How we select the new configurations during the simulation is given by the Metropolis Algorithm. 
 Ideally we would have a transition probability matrix which told us how likely it would be for each particle to move in the configuration space. Since we don't we try and model it.
@@ -62,6 +80,19 @@ $$\sum_j [p_j T_{j \rightarrow i}A_{j \rightarrow i} - p_i T_{i \rightarrow j}A_
 
 In order to stop at the configuration where we have reached equilibrium we us the condition of detailed balance, and it gives us 
 
+
+$$\frac{A_{j \rightarrow i}}{A_{i \rightarrow j}} = \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}.$$
+
+We choose to accept when the acceptance is bigger than 1. 
+
+$$A_{j \rightarrow i} = \mathrm{min} \left( 1, \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}\right)$$
+
+What we must calculate is equation \ref{eq:ratio}. And an example of the code is given further down, in Algorithm \ref{alg:metro}
+
+\begin{equation}\label{eq:ratio}
+\frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}} = \frac{|\Psi_T(\mathbf{R}_p)|^2}{|\Psi_T(\mathbf{R})|^2}
+\end{equation}
+
 \begin{algorithm}
 \KwData{matrix $\mathbf{R}$}
 \KwResult{float $\mathbf{E}_L$}
@@ -80,20 +111,6 @@ calculate $|\Psi_T(\mathbf{R})|^2$\;
 }
  \caption{Monte Carlo with Metropolis-Hastings}\label{alg:metro}
 \end{algorithm}
-
-r is a random number drawn from the distribution $r \in [0, \Lambda]$ with $\Lambda < \infty$
-
-$$\frac{A_{j \rightarrow i}}{A_{i \rightarrow j}} = \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}.$$
-
-We choose to accept when the acceptance is bigger than 1. 
-
-$$A_{j \rightarrow i} = \mathrm{min} \left( 1, \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}\right)$$
-
-What we must calculate is equation \ref{eq:ratio}. And an example of the code is given further down, in Algorithm \ref{alg:metro}
-
-\begin{equation}\label{eq:ratio}
-\frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}} = \frac{|\Psi_T(\mathbf{R}_p)|^2}{|\Psi_T(\mathbf{R})|^2}
-\end{equation}
 
 \section{Importance Sampling}
 
@@ -137,7 +154,7 @@ We begin by making a guess on the parameter $\theta$, then we follow \eq{theta}.
 
 Here we will need to calculate the expectation value of the local energy as well as the partial derivative of the wave function, and their product. The term $\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha}$ is fairly easy given the wave function we are considering. 
 
-\begin{align} \label{}
+\begin{align} 
 \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} &= \frac{-\Psi_T \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\Psi_T} \\
 &= -\prod_i^N (x_i^2 + y_i^2 + \beta z^2_i) \label{eq:frac_deri_wf}
 \end{align}
@@ -156,9 +173,6 @@ We call the function we wish to minimize $E(\theta)$, as energy is the quantity 
 E(\mathbf{\theta}) = \sum_{i=1}^N e_i(X_i, \mathbf{\theta}) 
 \end{equation}
 
-\begin{equation} \label{eq:theta}
-\mathbf{\theta}_{t+1} = \mathbf{\theta}_t - \eta_t \nabla_{\mathbf{\theta}} E(\mathbf{\theta}_t)
-\end{equation}
 
 In regular gradient descent the algorithm simply updates the parameter $\theta_{t+1}$ according to \eq{theta}. Since the cost function tells us something about how well the parameters work for our regression model we seek to minimize its gradient. Updateing the parameters with \eq{theta} causes the model to moves closer to a local minima. The $\eta$ is called the learning rate and it decides how fast we want to move in the gradients direction. A to large learning rate may cause the model to diverge, but given an optimal value or close to one the gradient descent will converge towards the minima.  
 
@@ -180,6 +194,23 @@ Gradient descent has some drawbacks, one being that it can get stuck in one loca
 
 Here we devide the data set into smaller minibatches of size $M$ creating $n/M$ batches. We denote these minibatches $B_k$ running from $k = 1...n/M$. Now we solve the gradient descent for the new minibatches and update the parameters according to \ref{theta_sgd}. Not do we only speed up the computational process, but it also introduces stochasticity. 
 
+\section{Statistical Errors}
+
+When dealing with random variables and estimates we will have to think about how this effect our measurements statistically. Two important properties to evaluate are variance and bias. 
+
+In our case, sampling the probability density $P(\mathbf{R})$ from a sequence of points $\mathbf{R}_i$ through the Metropolis algorithm makes these non-independent (i.e. correlated) as each new sample is selected based on the previous one. See \eq{prob_dist}.
+
+Central limit theorem states that given a sequence of independent and identically distributed random variables drawn from a probability distribution with an expectation value $E[E_L]$, in the limit of number of points N drawn being large, the probability distribution of $E[E_L]$ converges towards a Gaussian (normal) distribution of expected value $E[E_L]$ and variance $V[E_L]/N$.
+
+$\overline{E_L}$ is an estimate of $E_V$ with a statistical uncertainty given by the standard deviation of its Gaussian distribution, 
+
+\begin{equation}
+\sigma[\overline{E_L}] = \sqrt{V[\overline{E_L}]}.
+\end{equation}
+
+which means that there is a 68.3 \% chance of the expectation value being within the interval [$E_L - \sigma$, $E_L + \sigma$], a 95.5 \% chance of being in the interval [$E_L - 2\sigma$, $E_L + 2\sigma$] and a 99.7 \% chance of being in the interval [$E_L - 3\sigma$, $E_L + 3\sigma$].
+
+However, since we are not dealing with uncorrelated variables, the calculations of the standard deviation is not so straight forward. We will have to make use of some statistical techniques in order to solve the dependencies. We will describe one of the methods in the section on Blocking.
 
 \section{Blocking Method}
 
@@ -193,7 +224,7 @@ It can be showed that for correlated samples the equation for the standard devia
 $$\sigma = \sqrt{\frac{1 + 2 \tau / \Delta t}{n - 1} \left(\langle E_L^2\rangle - \langle E_L \rangle^2\right)}$$
 
 where $\tau$ is the time between one sample and the next uncorrelated sample and $\Delta t$ is the time between each sample.\
-If we knew what $\tau$ was we could simply find our $\sigma$, but since we don't we use blocking to find it. The method is simple enough, we divide our samples of data into blocks and calculating the mean of each block. So if we have an amount of samples of $\langle E_L \rangle$, we divide these into $M$ blocks and calculate the mean. By plotting the standard deviation as function of the block size we can keep blocking and blocking until we see that the std. dev. stops increasing, and this is where the blocks are uncorrelated. Now we have an estimate for $\tau$ and thus the standard deviation.
+If we knew what $\tau$ was we could simply find our $\sigma$, but since we don't we use blocking to find it. The method is simple enough, we divide our samples of data into blocks and calculating the mean of each block. So if we have an amount of samples of $\langle E_L \rangle$, we divide these into $M$ blocks and calculate the mean. By plotting the standard deviation as function of the block size we can keep blocking and blocking until we see that the standard deviation stops increasing, and this is where the blocks are uncorrelated. Now we have an estimate for $\tau$ and thus the standard deviation.
 
 
 \section{Numerical differentiation}
