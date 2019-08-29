@@ -1,9 +1,4 @@
-Some introduction containing historical information and stuff, and motivation for this section.
-
-\section{Markov chains}
-Stochastic process; evolution of a random variable in time. Trajectory of successive points $\mathbf{R}_1, \mathbf{R}_2, ...,\mathbf{R}_N$ with an associated probability distribution $P(\mathbf{R}_N, ...,\mathbf{R}_2,\mathbf{R}_1)$.  
-
-A Markov chain is a stochastic process for which the conditional probability for the transition to a new point $\mathbf{R}_i$ depends on the previous point $\mathbf{R}_{i-1}$ \cite{toulouse2016introduction}. 
+Quantum Monte Carlo is a range of methods that deal with solving the Schrödinger equation by exploiting the statistical features of Monte Carlo simulation in order to handle the multi dimensional integral that rise from the complex quantum many-body problem. As quantum mechanics is a field of statistical nature this is a highly suitable approach and Monte Carlo methods have therefore branched out to a number of different schemes. In this chapter we will focus on one of the most commonly used \textit{Variational Monte Carlo} (VMC) and the more complex \textit{Diffusion Monte Carlo} (DMC).
 
 \section{Variational Monte Carlo}
 
@@ -46,7 +41,27 @@ The wave function usually used in QMC are of the Jastrow-Slater form.
 
 Two types of errors are associated with the VMC, the systematic error and  statistical uncertainty. The first error is difficult to know much about, but the latter one however we can calculate. See section on Blocking.
 
+\section{Markov chains}
+Stochastic process; evolution of a random variable in time. Trajectory of successive points $\mathbf{R}_1, \mathbf{R}_2, ...,\mathbf{R}_N$ with an associated probability distribution $P(\mathbf{R}_N, ...,\mathbf{R}_2,\mathbf{R}_1)$.  
+
+A Markov chain is a stochastic process for which the conditional probability for the transition to a new point $\mathbf{R}_i$ depends only on the previous point $\mathbf{R}_{i-1}$ \cite{toulouse2016introduction}. 
+
+\begin{equation}
+P(\mathbf{R}_k|\mathbf{R}_{k-1}, ...,\mathbf{R}_1) = P(\mathbf{R}_k|\mathbf{R}_{k-1})
+\end{equation}
+
+We want the walker to be able to move to any configuration within the space that the distribution function spans. So we require that the sampling be \textit{ergodic}. Also we must set another condition on the Markov chain. The condition of \textit{detailed balance}. 
+
+\begin{equation}
+P(\mathbf{R}_f|\mathbf{R}_i) \rho(\mathbf{R}_i) = P(\mathbf{R}_i|\mathbf{R}_f) \rho(\mathbf{R}_f)
+\end{equation}
+
+This implies the Markov chain be reversible. The probability flux between the two states $\mathbf{R}_i$ and $\mathbf{R}_f$ to be the same in both directions. \cite{toulouse2016introduction}
+
+
+
 \section{The Metropolis Algorithm}
+
 What is Metropolis algo? Explain some basics...
 Given a probability distribution force sampled values to follow this distribution. Employs a stochastic process, a Markov chain.
 
@@ -155,8 +170,8 @@ We begin by making a guess on the parameter $\theta$, then we follow \eq{theta}.
 Here we will need to calculate the expectation value of the local energy as well as the partial derivative of the wave function, and their product. The term $\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha}$ is fairly easy given the wave function we are considering. 
 
 \begin{align} 
-\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} &= \frac{-\Psi_T \prod_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\Psi_T} \\
-&= -\prod_i^N (x_i^2 + y_i^2 + \beta z^2_i) \label{eq:frac_deri_wf}
+\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} &= \frac{-\Psi_T \sum_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\Psi_T} \\
+&= -\sum_i^N (x_i^2 + y_i^2 + \beta z^2_i) \label{eq:frac_deri_wf}
 \end{align}
 
 Since the correlation function $f(a, r_{ij})$ of the wave function is independent of the variational parameter $\alpha$, \eq{frac_deri_wf} holds for the interactive case as well.

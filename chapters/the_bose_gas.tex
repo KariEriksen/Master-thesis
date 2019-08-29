@@ -1,4 +1,7 @@
-Some introduction containing historical information and stuff, and motivation for this section.
+OBS: change the wording
+The Schrödinger equation can in principle describe systems containing any number of particles as long as they are moving within the non relativistic range of velocity, i.e. not moving closer to the speed of light. This is the case of the Bose-Einstein condensate and one of the reasons for the amount it is been explored. 
+In the next chapter we will look closer at some boson systems like the Bose-Einstein condensate and its characteristics, and how we can solve these type of systems with an analytic approach and a numerical one. 
+Maybe specify some constants if that is necessary. 
 
 \section{Ideal Bose gas}
 Bosons are quantum particles with integer spin, meaning they follow Bose-Einstein statistics. 
@@ -8,9 +11,12 @@ Composite: hydrogen, mesons, nucleus of deuterium
 
 Consider a dilute Bose gas where the inter-particle distance is much greater than the scattering length. It can be approximated by a mean field theory. We describe it by a simple hard-sphere effective potential. (Master Joachim)
 
-Bogoliubov - 
+Gross-Pitaevskii - analogy to the Schrödinger equation. 
 
 Ground state energy
+
+The ideal bose gas is straight forward and have been solved analytically and numerically by many. Weak interacting bosons is also a case that has been studied to a great extent. If we where to add strong interaction the system may do a number of things, flipping of spin, excitation etc.
+
 
 \section{The Bose-Einstein Condensation}
 The ability of bosons at low temperature to collectively inhabit the same energy state, compared to fermions who are restricted to the Pauli exclusion principle.
@@ -72,6 +78,41 @@ We are studying a system of two electrons confined in a harmonic oscillator trap
 \end{equation}
 
 where the first sum is the standard harmonic oscillator part and the last is the interacting part between the electrons and $N$ represent the number of particles. $\omega$ is the oscillator frequency of the trap and $r_i$ is the position of particle $i$, whereas $r_{ij}$ is the distance between the particles and given as $r_{ij} = |\mathbf{r_i} - \mathbf{r_j}|$. \\
+
+\begin{equation} \label{eq:trap_potential}
+ V_{ext}(\mathbf{r}) = 
+ \Bigg\{
+ \begin{array}{ll}
+	 \frac{1}{2}m\omega_{ho}^2r^2 & (S)\\
+ \strut
+	 \frac{1}{2}m[\omega_{ho}^2(x^2+y^2) + \omega_z^2z^2] & (E)
+ \end{array}
+\end{equation}
+
+\begin{equation} \label{eq:potential_internal}
+ V_{int}(|\mathbf{r}_i-\mathbf{r}_j|) =  \Bigg\{
+ \begin{array}{ll}
+	 \infty & {|\mathbf{r}_i-\mathbf{r}_j|} \leq {a}\\
+	 0 & {|\mathbf{r}_i-_r\mathbf{r}_j|} > {a}
+ \end{array}
+\end{equation}
+
+\begin{equation} \label{eq:trialwf}
+ \Psi_T(\mathbf{r})=\Psi_T(\mathbf{r}_1, \mathbf{r}_2, \dots \mathbf{r}_N,\alpha,\beta)=\prod_i g(\alpha,\beta,\mathbf{r}_i)\prod_{i < j}f(a,|\mathbf{r}_i-\mathbf{r}_j|),
+\end{equation}
+
+\begin{equation} \label{eq:spf_g}
+g(\alpha,\beta,\mathbf{r}_i)= \exp{[-\alpha(x_i^2+y_i^2+\beta z_i^2)]}.
+\end{equation}
+
+\begin{equation} \label{eq:jastrow_f}
+    f(a,|\mathbf{r}_i-\mathbf{r}_j|)=\Bigg\{
+ \begin{array}{ll}
+	 0 & {|\mathbf{r}_i-\mathbf{r}_j|} \leq {a}\\
+	 (1-\frac{a}{|\mathbf{r}_i-\mathbf{r}_j|}) & {|\mathbf{r}_i-\mathbf{r}_j|} > {a}.
+ \end{array}
+\end{equation}
+
 Our wave function is given from the energy of the restricted Boltzmann machine, see \eqref{eq:E_rbm}, which is the joint energy functional between the visible and hidden nodes. From the marginal probability of the joint probability distribution, see \eqref{eq:F_rbm_marg}, we get our wave equation.                     
 
 \begin{align}\label{eq:F_rbm}

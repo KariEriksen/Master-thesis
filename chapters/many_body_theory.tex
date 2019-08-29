@@ -1,10 +1,38 @@
 Some introduction containing historical information and stuff, and motivation for this section. 
+Configuration interaction, Many-body perturbation theory, Coupled-cluster 
+Electron correlation,
+
+Solving the Schrödinger equation, analytical and now numerical
+
+Many-body algebraic methods originate from quantum field theory \cite{shavitt2009many}
+
+\section{Classical Mechanics}
+
+In classical mechanics a particles state is described by two variables, $x(t)$ and $p(t)$, the particles position and its momenta. For a system of N particles the state would be formed by vectors holding each particles position and momentum, $q = (\vec{r}_1, \cdots,\vec{r})_N$ and $p = (\vec{p}_1, \cdots,\vec{p}_N)$. 
+Together they form a point $\xi(q, p)$ in a two-dimensional \textit{phase space} $\in \mathbb{R}^{2 \cdot n}$ \cite{kvaal}. The phase space contains all the possible values for the position and momentum variables.
+The state variables are governed by \textit{Hamilton's equation of motion},
+
+\begin{align}
+\dot{q} &= \frac{\partial}{\partial p} \mathscr{H} (q, p) \\
+\dot{p} &= -\frac{\partial}{\partial q} \mathscr{H} (q, p),
+\end{align}
+
+where $\mathscr{H}$ is the $\textit{Hamiltonian}$, an operator that we interpret as the total energy of the system. To see this we write out a special case within the classical Hamiltonian dynamics
+
+\begin{align}
+\mathscr{H}(q,p) &= \mathscr{T}(p) + \mathscr{V}(q) + \mathscr{W}(q) \\
+&= \frac{1}{2m} \sum^N_{i=1} |\vec{p}_i|^2 + \sum^N_{i=1} v(\vec{r}_i) + \frac{1}{2} \sum^N_{i \neq j} w(r_{ij})
+\end{align}.
+
+This is the Hamiltonian for N particles of mass m, with inter-particle reaction through the force of a central potential $w(r_{ij}) = |\vec{r}_i - \vec{r}_j|$, moving in an external potential field $v(\vec{r})$. We recognize the first term as the $\textit{kinetic energy}$, the second term as the $\textit{external potential energy}$, and the final term as the $\textit{interaction energy}$.
 
 \section{Quantum Mechanics}
 
 In ordinary quantum mechanics an observable is a linear operator acting on a Hilbert space. Position operator and momentum operator, other observable quantities like angular momentum, energy, and so on, are linear operators constructed out of linear combinations of products of the position and momentum.\cite{kvaal}
+Atomic units, all equal 1.
+Hamiltonian 
 
-\section{Canonical quantization}
+\subsection{Canonical quantization}
 
 Moving from a classical Hamiltonian description to a non-relativistic quantum mechanical description of the particle through a procedure called canonical quantization.(ref. Simen Kvaal)
 
@@ -51,7 +79,7 @@ Replace classically canonical coordinates $\epsilon = (q, p)$ with operators $(\
 \{q_j, p_k\} = \delta_{jk} \Rightarrow [\hat{q_j}, \hat{p_k}] = i \hbar \delta_{jk}
 \end{equation}
 
-\section{Canonical transformation}
+\subsection{Canonical transformation}
 
 A one-to-one algebra morphism of an observable, u, onto itself leaving the canonical commutation relations invariant. The canonical transformation is a map, $u \rightarrow u$ 
 
@@ -61,7 +89,7 @@ properties satisfying
 -invariance
 -product conserving (s. 175 MBBS)
 
-\section{Second quantization}
+\subsection{Second quantization}
 
 Now the particles themselves are discrete quanta created and destroyed with creation and annihilation operators
 
@@ -86,5 +114,9 @@ The many-body Hamiltonian (s. 12)
 one-body operator  
 
 two-body operator
+
+\section{The Harmonic Oscillator}
+
+
 
 \section{Wave function}
