@@ -86,7 +86,7 @@ $$g(\alpha, \beta, \mathbf{r_i}) = \exp -\alpha (x_i^2 + y_i^2 + \beta z_i^2) = 
 
 and 
 
-$$f(r_{ij})\exp \left(\sum_{i<j}u(r_{ij})\right)$$
+$$f(r_{ij}) = \exp \left(\sum_{i<j}u(r_{ij})\right)$$
 
 getting 
 
@@ -242,11 +242,11 @@ u''(r_{kj}) &= \frac{d^2 (\ln{f(r_{kj})})}{dr_{kj}^2} \\
 Putting all of this together we end up with the following expression for the second derivative of the wave equation divided by it self:
 
 \begin{align*}
-\frac{1}{\Psi_T(\mathbf{r})}\nabla_k^2 \Psi_T(\mathbf{r}) &= -4\alpha^2 - 2\alpha \beta + 4\alpha^2(x_k^2 + y_k^2 + \beta z_k^2) \\
+\frac{1}{\Psi_T(\mathbf{r})}\nabla_k^2 \Psi_T(\mathbf{r}) &= -4\alpha - 2\alpha \beta + 4\alpha^2(x_k^2 + y_k^2 + \beta z_k^2) \\
 &+ 2((2\alpha x_k \vec{i} + 2\alpha y_k \vec{j} + 2\alpha \beta z_k \vec{k})) \sum_{j \ne k} \left( \frac{(x_k - x_j)\vec{i} + (y_k - y_j)\vec{j} + (z_k - z_j)\vec{k}}{r_{kj}} \left( \frac{-a}{ar_{kj} - r_{kj}^2} \right) \right)\\
 &+ \sum_{j \ne k} \left( \frac{(x_k - x_i)\vec{i} + (y_k - y_i)\vec{j} + (z_k - z_i)\vec{k}}{r_{ki}} \right) \left( \frac{(x_k - x_j)\vec{i} + (y_k - y_j)\vec{j} + (z_k - z_j)\vec{k}}{r_{kj}} \right) \\
 &* \left( \frac{-a}{ar_{ki} - r_{ki}^2} \right) \left( \frac{-a}{ar_{kj} - r_{kj}^2} \right)\\
-&+ \sum_{j \ne k} \left( \frac{a(a - 2r_{kj})}{r_{kj}^2(a - r_{kj})^2} + \frac{2}{r_{kj}} - \frac{a}{ar_{kj} - r_{kj}^2}\right)
+&+ \sum_{j \ne k} \left( \frac{a(a - 2r_{kj})}{r_{kj}^2(a - r_{kj})^2} + \frac{2}{r_{kj}} \left(\frac{-a}{ar_{kj} - r_{kj}^2}\right) \right)
 \end{align*}
 
 

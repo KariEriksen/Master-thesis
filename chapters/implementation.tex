@@ -1,0 +1,2 @@
+The interaction term $V_{int}$ we can leave out of the VMC sampler class, since the trail wave equation will guarantee that the particles do not move to close to each other. Meaning not closer than the boundary $a$, in which the wave equation becomes zero. So we simply leave this out of the computations in order to move unnecessary calculations. 
+Or it may be excluded given the sampling method assures we do not select a new suggested position with a probability lower than some random number $\epsilon$.  
