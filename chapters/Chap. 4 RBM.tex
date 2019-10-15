@@ -1,6 +1,32 @@
 Some introduction containing historical information and stuff, and motivation for this section.
 
-\section{Restricted Boltzmann Machine}\label{sec:rbm}
+\section{Artificial Neural Networks}
+
+Input , output propagation
+connections, neurons, weights, 
+
+\subsection{Reinforcement learning}
+
+Do not have training data
+Trained by lowering the Markov chain cost.
+Markov chain process, probability distributions, next process depends one the previous
+
+
+\subsection{Generative model}
+
+Can learn to represent and sample data from a probability distribution.
+
+a model of the conditional probability of the observable X given the target Y. 
+
+\section{Machine Learning using Monte Carlo calculations}
+
+Gradient methods for minimizing cost functions
+
+Markov Chain Monte Carlo methods (MCMC)
+
+\subsection{Energy based models}
+
+\subsection{Restricted Boltzmann Machine}\label{sec:rbm}
 
 Restricted Boltzmann machine is a energy-based generative model which include hidden and visible variables (ref to Metha). It consists of a two-layer network with a two dimensional matrix $W_{ij}$ telling how strong the connections between the hidden and visible nodes are. The energy related to a configuration of the nodes is what forms the basis of our model. It is given in \eqref{eq:E_rbm}.
 
@@ -30,6 +56,10 @@ F_{rbm} (\mathbf{X}) &= \sum_{\mathbf{h}} F_{rbm} (\mathbf{X}, \mathbf{h}) \\
 \end{align}
 
 Since we have no data to train we use the technique of reinforcement learning. We feed the network with input using Monte Carlo method and based on the variational principle we find the ground state of the system by seeking the configuration that gives the lowest quantum mechanical energy. According to this principle we change the weights and biases by gradient descent method and hopefully the network will converge towards the correct state.  
+
+\subsection{Representing the wave function}
+
+\section{Cost functions}
 
 \section{Gibbs Sampling}
 

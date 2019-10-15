@@ -1,0 +1,333 @@
+Quantum Monte Carlo is a range of methods that deal with solving the Schrödinger equation by exploiting the statistical features of Monte Carlo simulation in order to handle the multi dimensional integral that rise from the complex quantum many-body problem. As quantum mechanics is a field of statistical nature this is a highly suitable approach and Monte Carlo methods have therefore branched out to a number of different schemes. In this chapter we will focus on one of the most commonly used \textit{Variational Monte Carlo} (VMC) and the more complex \textit{Diffusion Monte Carlo} (DMC).
+
+\section{Variational Monte Carlo}
+
+\cite{hjorthjensen}
+page 417-420
+
+page 462
+
+page 537? BEC with Diffusion Monte Carlo
+
+Monte Carlo simulations are widely used methods in numerical science that employs random walkers. 
+In this project we are taking a closer look at trapped bosons. We are given a trail wave function we assume is as close to the real case as possible, $\Psi_T(\mathbf{R};\alpha)$ where $\mathbf{R} = (\mathbf{R}_1, ... , \mathbf{R}_N)$ is the position of the different particles. 
+From quantum mechanics we know the probability distribution is given by the wave function. 
+
+\begin{equation} \label{eq:prob_dist}
+P(\mathbf{R}; \alpha) = \frac{|\Psi_T(\mathbf{R};\alpha)|^2}{\int|\Psi_T(\mathbf{R};\alpha)|^2 d\mathbf{R}}
+\end{equation} 
+
+Monte Carlo integration allow us to evaluate the integral at hand. The expectation value of the Hamiltonian is given as follows. 
+
+$$\langle \widehat{\mathbf{H}}\rangle = \frac{\int d \mathbf{R} \Psi^{\ast} (\mathbf{R})H(\mathbf{R}) \Psi(\mathbf{R})}{\int d \mathbf{R} \Psi^{\ast} (\mathbf{R}) \Psi(\mathbf{R})}$$
+
+The variational principle states that the expectation value of the Hamiltonian is an upper-bound for the ground state energy of the Hamiltonian.
+
+$$E_0 \leq \langle H \rangle$$
+
+This is what the Variational Monte Carlo method bases itself on. Given a probability distribution we can evaluate the wave function and look for a local minimum. We define the local energy by
+
+$$\widehat{\mathbf{E}}_L(\mathbf{R};\alpha) = \frac{1}{\Psi_T(\mathbf{R};\alpha)}\widehat{\mathbf{H}}\Psi_T(\mathbf{R};\alpha).$$
+
+Then the expectation value of the local energy is given by
+
+$$\mathbf{E}_V \approx \langle \widehat{\mathbf{E}}_L\rangle = \int P(\mathbf{R}) \widehat{\mathbf{E}}_L d\mathbf{R} \approx \frac{1}{N} \sum_{i = 1}^N \mathbf{E_L}(x_i)$$
+
+where $N$ is the number of Monte Carlo cycles and the points $x_i$ are sampled using the Metropolis-Hastings algorithm. Now we can calculate the probability distribution and the local energy. And for each cycle we propose a new configuration $\mathbf{R}_p$ for the system and hopefully we come closer to the ground state.
+
+$$\mathbf{R}_p = \mathbf{R} + r \ast \Delta \mathbf{R}$$
+
+r is a random number drawn from the distribution $r \in [0, \Lambda]$ with $\Lambda < \infty$, OBS. find out why we choose [0,1] and $\Delta \mathbf{R}$ is the step length of the Metropolis method. Explain some further... 
+
+\cite{toulouse2016introduction}, the advantage of this approach is that it does not use an analytic integration involving the wave function, and thus does not impose severe constraints on the form of the wave function. 
+The wave function usually used in QMC are of the Jastrow-Slater form. 
+
+\begin{equation}
+\psi(\mathbf{R}) = J(\mathbf{R}) \phi (\mathbf{R})
+\end{equation}
+
+Two types of errors are associated with the VMC, the systematic error and  statistical uncertainty. The first error is difficult to know much about, but the latter one however we can calculate. See section on Blocking.
+
+\subsection{Markov chains}
+Stochastic process; evolution of a random variable in time. Trajectory of successive points $\mathbf{R}_1, \mathbf{R}_2, ...,\mathbf{R}_N$ with an associated probability distribution $P(\mathbf{R}_N, ...,\mathbf{R}_2,\mathbf{R}_1)$.  
+
+A Markov chain is a stochastic process for which the conditional probability for the transition to a new point $\mathbf{R}_i$ depends only on the previous point $\mathbf{R}_{i-1}$ \cite{toulouse2016introduction}. 
+
+\begin{equation}
+P(\mathbf{R}_k|\mathbf{R}_{k-1}, ...,\mathbf{R}_1) = P(\mathbf{R}_k|\mathbf{R}_{k-1})
+\end{equation}
+
+We want the walker to be able to move to any configuration within the space that the distribution function spans. So we require that the sampling be \textit{ergodic}. Also we must set another condition on the Markov chain. The condition of \textit{detailed balance}. 
+
+\begin{equation}
+P(\mathbf{R}_f|\mathbf{R}_i) \rho(\mathbf{R}_i) = P(\mathbf{R}_i|\mathbf{R}_f) \rho(\mathbf{R}_f)
+\end{equation}
+
+This implies the Markov chain be reversible. The probability flux between the two states $\mathbf{R}_i$ and $\mathbf{R}_f$ to be the same in both directions. \cite{toulouse2016introduction}
+
+
+
+\subsection{The Metropolis Algorithm}
+
+What is Metropolis algo? Explain some basics...
+Given a probability distribution force sampled values to follow this distribution. Employs a stochastic process, a Markov chain.
+
+How we select the new configurations during the simulation is given by the Metropolis Algorithm. 
+Ideally we would have a transition probability matrix which told us how likely it would be for each particle to move in the configuration space. Since we don't we try and model it.
+We define the following entities:
+\\
+\\
+$P_i^{(n)} \rightarrow$ probability of finding the system in state $i$ at the n'th step.
+\\
+$j \rightarrow$ possible new step
+\\
+$A_{i \rightarrow j} \rightarrow$ probability of acceptance. 
+\\
+$T_{j \rightarrow i} \rightarrow$ probability of making the transition  
+\\
+\\
+Now we can say that a transition probability matrix can be constructed by $T_{j \rightarrow i}A_{j \rightarrow i}.$ The probability of finding the system in state $i$ at step $n$ is
+
+\begin{equation}\label{eq:prob}
+P_i^{(n)} = \sum_j \left[P_j^{(n-1)} T_{j \rightarrow i}A_{j \rightarrow i} + P_j^{(n-1)}T_{i \rightarrow j}(1 - A_{i \rightarrow j})\right].
+\end{equation}
+
+We want to push the system towards high density regional space of $P_i^{(n)}$. /We want to select states according to the probability distribution. In that way to converge to the desired stationary distribution $p_i$.
+
+$$P_i^{(n \rightarrow \infty)} \rightarrow p_i$$
+
+Using this statement and the fact that the sum over all possible transitional probabilities is one we can rewrite the above equation \ref{eq:prob}.
+
+$$\sum_j [p_j T_{j \rightarrow i}A_{j \rightarrow i} - p_i T_{i \rightarrow j}A_{i \rightarrow j}] = 0$$
+
+In order to stop at the configuration where we have reached equilibrium we us the condition of detailed balance, and it gives us 
+
+
+$$\frac{A_{j \rightarrow i}}{A_{i \rightarrow j}} = \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}.$$
+
+We choose to accept when the acceptance is bigger than 1. 
+
+$$A_{j \rightarrow i} = \mathrm{min} \left( 1, \frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}}\right)$$
+
+What we must calculate is equation \ref{eq:ratio}. And an example of the code is given further down, in Algorithm \ref{alg:metro}
+
+\begin{equation}\label{eq:ratio}
+\frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}} = \frac{|\Psi_T(\mathbf{R}_p)|^2}{|\Psi_T(\mathbf{R})|^2}
+\end{equation}
+
+\begin{algorithm}
+\KwData{matrix $\mathbf{R}$}
+\KwResult{float $\mathbf{E}_L$}
+number of MC-cycles $N$\;
+initialize $\mathbf{R}$\;
+calculate $|\Psi_T(\mathbf{R})|^2$\;
+\For{i in $[0, N]$}{
+    $\mathbf{R}_p = \mathbf{R} + r \ast \Delta \mathbf{R}$\;
+    calculate $\omega = \frac{|\Psi_T(\mathbf{R}_p)|^2}{|\Psi_T(\mathbf{R})|^2}$\;
+    \eIf{$q \leq \omega$}{
+        accept new move\;
+    }
+    {reject new move\;
+    }
+    update energy, $\mathbf{E}_L$\;
+}
+ \caption{Monte Carlo with Metropolis-Hastings}\label{alg:metro}
+\end{algorithm}
+
+\subsection{Importance Sampling}
+
+Now we move to an extension of the Metropolis algorithm, the Importance sampling. This method provides us with a better way of suggesting new moves. The expression for the new move, $y$, is given by the solution of the Langevin equation. It reads 
+
+$$y = x + D F(x) \Delta t + \xi \sqrt{\Delta t},$$
+
+where $\xi$ is a gaussian random variable, $D$ is the diffusion coefficient and is $\frac{1}{2}$ and $\Delta t$ is the time step which take values between $[0.001, 0.01]$.
+$F(x)$ is the drift force and is given by the gradient of the wave function. 
+
+$$F = 2 \frac{1}{\Psi_T} \nabla \Psi_T$$
+
+It is the drift force that ensures us we move particles towards regions of configuration space where the trail wave function is large. This method increases the efficiency of our program, since the standard Metropolis can suggest new moves in every direction with same probability. 
+From the solution of the Fokker-Planck equation we get a new transition probability, the Green's function. 
+
+$$G(y, x, \Delta t) = \frac{1}{(4 \pi D \Delta t)^{3N/2}} \exp (-(y - x - D F(x) \Delta t)^2/4 D \Delta t)$$
+
+Now equation \ref{eq:ratio} from Metropolis algorithm changes to 
+
+$$\frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}} = \frac{G(x, y, \Delta t)|\Psi_T(y)|^2}{G(y, x, \Delta t)|\Psi_T(x)|^2},$$
+
+and we must calculate the drift force in order to find new moves and the Green's function to accept/reject these moves.
+
+page 255 in Satistical and thermal physics using Python.
+
+\subsection{Representing the wave function}
+
+Our starting point of the problem at hand is the GP equation \ref{Gross-Pitaevskii}
+
+\begin{equation} \label{eq:trialwf}
+ \Psi_T(\mathbf{r})=\Psi_T(\mathbf{r}_1, \mathbf{r}_2, \dots \mathbf{r}_N,\alpha,\beta)=\prod_i g(\alpha,\beta,\mathbf{r}_i)\prod_{i < j}f(a,|\mathbf{r}_i-\mathbf{r}_j|),
+\end{equation}
+
+We can incorporate the deformation of the trap in the mean-field wave function. 
+
+\begin{equation} \label{eq:spf_g}
+g(\alpha,\beta,\mathbf{r}_i)= \exp{[-\alpha(x_i^2+y_i^2+\beta z_i^2)]}.
+\end{equation}
+
+This is the same as 5.10 in \cite{BECCondInDilute}, wave function to describe scattering of two particles...
+The ansatz for correlation function, in its simplest form, a Jastrow form:
+
+\begin{equation}
+F(1, \cdots, N) = \prod_{i < j}f(a,|\mathbf{r}_i-\mathbf{r}_j|)
+\end{equation}
+
+We will use a two-body correlation function that is the solution of the Schrödinger equation of two atoms interaction via a hard-core potential with diameter $a$, at low energy.
+
+\begin{equation} \label{eq:jastrow_f}
+    f(a,|\mathbf{r}_i-\mathbf{r}_j|)=\Bigg\{
+ \begin{array}{ll}
+	 0 & {|\mathbf{r}_i-\mathbf{r}_j|} \leq {a}\\
+	 (1-\frac{a}{|\mathbf{r}_i-\mathbf{r}_j|}) & {|\mathbf{r}_i-\mathbf{r}_j|} > {a}.
+ \end{array}
+\end{equation}
+
+\cite{nilsen2005vortices}, The advantage of using a correlated trial wave function lies in the fact that non-perturbative effects, as the short-range repulsion between atoms may be directly incorporated into the trial wave function.
+
+\section{Gradient Descent}
+
+The variational quantum problem is highly dependent on a good optimization algorithm. One of the more famous and widely used is the gradient descent. It is a family of minimization methods where the idea is to iteratively adjust the parameters in the direction where the gradient of the cost function, usually an energy function, is large and negative \cite{mehta2019high}. 
+If a multi-variable function $E(\theta)$ is defined and differentiable in a neighborhood of a point $\theta$, then $E(\theta)$ decreases fastest if one goes from $\theta$ in the direction of the negative gradient of $E$ at $\theta$, $-\nabla E(\theta)$, (wiki). This way we move towards a local minimum in the configurational space. And the gradient descent can be represented as
+
+\begin{equation} \label{eq:theta}
+\mathbf{\theta}_{t+1} = \mathbf{\theta}_t - \eta_t \nabla_{\mathbf{\theta}} E(\mathbf{\theta}_t),
+\end{equation}
+
+where $\eta_t$ is called the step length/learning rate, it controls how large steps we take within the method.
+The easiest way to implement the learning rate is by giving it a constant value. One can however introduce a changing learning rate. This can help us avoid problems like overshooting or oscillating between two points. Such adaptive step size methods can be Newton's method, backtracking line search, Cauchy or Barzilai and Borwein. To be continued. 
+
+We begin by making a guess on the parameter $\theta$, then we follow \eq{theta}. The partial derivative of the energy with respect to the variational parameter can be found through the following equation.
+
+\begin{equation}
+\frac{dE_L}{d\alpha} = 2 \left( \left\langle \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} E_L \right\rangle  - \left\langle  \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} \right\rangle \langle E_L \rangle \right)
+\end{equation}
+
+Here we will need to calculate the expectation value of the local energy as well as the partial derivative of the wave function, and their product. The term $\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha}$ is fairly easy given the wave function we are considering. 
+
+\begin{align} 
+\frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} &= \frac{-\Psi_T \sum_i^N (x_i^2 + y_i^2 + \beta z^2_i)}{\Psi_T} \\
+&= -\sum_i^N (x_i^2 + y_i^2 + \beta z^2_i) \label{eq:frac_deri_wf}
+\end{align}
+
+Since the correlation function $f(a, r_{ij})$ of the wave function is independent of the variational parameter $\alpha$, \eq{frac_deri_wf} holds for the interactive case as well.
+
+The last step of the algorithm is to check if the absolute value of the gradient squared is smaller or larger than some given small number $\epsilon$. If larger then we continue the process, if smaller we consider our result good enough. 
+
+\subsection{Stochastic gradient descent}
+
+In this project we are dealing with different types of cost functions. Depending on the method we use the minimization of the first derivative of the cost function is done differently. In the case of linear regression there is no use of numerical optimization methods as there exists an analytical solution to the derivative of the RSS. In the case of logistic regression and the neural network however, there are no closed form solutions to the cost functions being used. We therefore take use of two algorithms called gradient descent and stochastic gradient descent in order to update the parameters (weights).
+
+We call the function we wish to minimize $E(\theta)$, as energy is the quantity we in most problems within physics are trying to minimize. In linear regression this is the MSE (RSS) and in logistic regression it is the cross entropy. 
+
+\begin{equation}
+E(\mathbf{\theta}) = \sum_{i=1}^N e_i(X_i, \mathbf{\theta}) 
+\end{equation}
+
+
+In regular gradient descent the algorithm simply updates the parameter $\theta_{t+1}$ according to \eq{theta}. Since the cost function tells us something about how well the parameters work for our regression model we seek to minimize its gradient. Updateing the parameters with \eq{theta} causes the model to moves closer to a local minima. The $\eta$ is called the learning rate and it decides how fast we want to move in the gradients direction. A to large learning rate may cause the model to diverge, but given an optimal value or close to one the gradient descent will converge towards the minima.  
+
+Usually the first parameters are given random variables. 
+
+Gradient descent has some drawbacks, one being that it can get stuck in one local minima and never reaching the correct one. Another is that it is sensitvive to initial conditions, so what values we give the parameters in the begining matters. It is also somewhat computational expensive. A solution to this is stochastic gradient descent.  
+
+\begin{equation}
+\nabla_{\theta} E(\theta) = \sum_i^n \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta}) \longrightarrow \sum_{i \in B_k} \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta})
+\end{equation}
+
+\begin{equation}
+\nabla_{\theta} E^{MB} (\theta) = \sum_{i \in B_k}^M \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta})
+\end{equation}
+
+\begin{equation} \label{theta_sgd}
+\theta_{t+1} = \mathbf{\theta_t} - \eta_t \nabla_{\theta} E^{MB} (\theta)
+\end{equation}
+
+Here we devide the data set into smaller minibatches of size $M$ creating $n/M$ batches. We denote these minibatches $B_k$ running from $k = 1...n/M$. Now we solve the gradient descent for the new minibatches and update the parameters according to \ref{theta_sgd}. Not do we only speed up the computational process, but it also introduces stochasticity. 
+
+
+\section{Statistical Errors}
+
+When dealing with random variables and estimates we will have to think about how this effect our measurements statistically. Two important properties to evaluate are variance and bias. 
+
+In our case, sampling the probability density $P(\mathbf{R})$ from a sequence of points $\mathbf{R}_i$ through the Metropolis algorithm makes these non-independent (i.e. correlated) as each new sample is selected based on the previous one. See \eq{prob_dist}.
+
+Central limit theorem states that given a sequence of independent and identically distributed random variables drawn from a probability distribution with an expectation value $E[E_L]$, in the limit of number of points N drawn being large, the probability distribution of $E[E_L]$ converges towards a Gaussian (normal) distribution of expected value $E[E_L]$ and variance $V[E_L]/N$.
+
+$\overline{E_L}$ is an estimate of $E_V$ with a statistical uncertainty given by the standard deviation of its Gaussian distribution, 
+
+\begin{equation}
+\sigma[\overline{E_L}] = \sqrt{V[\overline{E_L}]}.
+\end{equation}
+
+which means that there is a 68.3 \% chance of the expectation value being within the interval [$E_L - \sigma$, $E_L + \sigma$], a 95.5 \% chance of being in the interval [$E_L - 2\sigma$, $E_L + 2\sigma$] and a 99.7 \% chance of being in the interval [$E_L - 3\sigma$, $E_L + 3\sigma$].
+
+However, since we are not dealing with uncorrelated variables, the calculations of the standard deviation is not so straight forward. We will have to make use of some statistical techniques in order to solve the dependencies. We will describe one of the methods in the section on Blocking.
+
+\subsection{Blocking Method}
+
+For the statistical analysis and error estimates we have used the technique of blocking. \
+We are looking for the expectation value of the ground state energy of our system. In order to say something about how accurate these results are we want to look at the standard deviation. 
+
+If our samples where uncorrelated we could calculate the standard deviation through the following equation 
+$$\sigma = \sqrt{\frac{1}{n - 1} \left(\langle E_L^2\rangle - \langle E_L \rangle^2\right)}.$$
+
+It can be showed that for correlated samples the equation for the standard deviation is
+$$\sigma = \sqrt{\frac{1 + 2 \tau / \Delta t}{n - 1} \left(\langle E_L^2\rangle - \langle E_L \rangle^2\right)}$$
+
+where $\tau$ is the time between one sample and the next uncorrelated sample and $\Delta t$ is the time between each sample.\
+If we knew what $\tau$ was we could simply find our $\sigma$, but since we don't we use blocking to find it. The method is simple enough, we divide our samples of data into blocks and calculating the mean of each block. So if we have an amount of samples of $\langle E_L \rangle$, we divide these into $M$ blocks and calculate the mean. By plotting the standard deviation as function of the block size we can keep blocking and blocking until we see that the standard deviation stops increasing, and this is where the blocks are uncorrelated. Now we have an estimate for $\tau$ and thus the standard deviation.
+
+
+\section{Numerical differentiation}
+To evaluate the local energy of the system as defined in the project it necessary to compute the second derivative of the trial wave function $\psi_T$. We've chosen to implement the numerical differentiation as a finite difference approximation. Let $\mathbf{R}$ be the row major $N \times D$ matrix where $N$ is the number of particles and $D$ is their dimension. Then the second derivative can be found by the procedure listed as algorithm \ref{alg:nd}
+
+\begin{algorithm}
+\KwData{matrix $\mathbf{R}$}
+\KwResult{float $\nabla ^2 \psi_T (R)$}
+\BlankLine
+$\Delta = 0$ \\
+$\mathbf{R_p} = \mathbf{R}$\\
+$\mathbf{R_m} = \mathbf{R}$\\
+\BlankLine
+\For{$i$ in $[0, N-1]$}{
+	\For{$j$ in $[0, D-1]$}{
+		$\mathbf{R_p}(i,j) += h$ \\
+		$\mathbf{R_m}(i,j) -= h$ \\
+		$\Delta = \psi_T(\mathbf{R_p}) + \psi_T(\mathbf{R_m}) - 2 \psi_T(\mathbf{R})$\\
+
+		$\mathbf{R_p}(i,j) -= h$ \\
+		$\mathbf{R_m}(i,j) += h$ \\
+	}
+}
+\KwRet{$\frac{\Delta}{h^2} $}
+\BlankLine
+\caption{Numerical differentiation of the second order of the trial wave function on a system $\mathbf{R}$}\label{alg:nd}
+\end{algorithm} 
+
+Since the derivative involves three function calls for each particle the numerical derivative will obviously be quite computationally expensive. It is noted  that the differentiation could be substantially optimized from the version included in the code, but is outside the scope of this project. 
+
+\section{Diffusion Monte Carlo}
+
+Sources: Lecture notes, Morten \cite{hjorthjensen}
+
+Numerical method solves the many-body Schrödinger equation for the ground-state of a system of boson exactly. Since it does not depend on any a priori choice of wave function. In practice however, one needs a guess of the wave function that is within the range of the exact wave function, or the method would use an enormous amount of time to solve the problem. So in theory DMC can produce the exact ground state of any(?) system, but in practice this is not the case. 
+
+Diffusion Monte Carlo (DMC) is a method within a class of projector Monte Carlo methods. They are methods based on taking projections in Hilbert space. 
+
+\begin{equation}
+\exp^{(-\hat{H}t)} \psi(x) = \sum_i c_i \exp^{(-\epsilon_i t)}\phi_i(x) 
+\end{equation}
+
+Notes from Jørgens master: Green's function, an ensemble of walkers can be iterated by transitioning between configurations r and r' with probability given the greens function. Rewriting a trail wave function to something looking like a diffusion equation.
+
+Question: what does he mean by the diffusion eq. contributing to the variational method? Is this because of the time-dependent part? Or is this the case for all problems? 
+
+
+

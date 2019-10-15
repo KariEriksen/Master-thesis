@@ -1,0 +1,87 @@
+Some introduction containing historical information and stuff, and motivation for this section.
+
+\section{Artificial Neural Networks}
+
+Input , output propagation
+connections, neurons, weights, 
+
+\subsection{Reinforcement learning}
+
+Do not have training data
+Trained by lowering the Markov chain cost.
+Markov chain process, probability distributions, next process depends one the previous
+
+
+\subsection{Generative model}
+
+Can learn to represent and sample data from a probability distribution.
+
+a model of the conditional probability of the observable X given the target Y. 
+
+\section{Machine Learning using Monte Carlo calculations}
+
+Gradient methods for minimizing cost functions
+
+Markov Chain Monte Carlo methods (MCMC)
+
+\subsection{Energy based models}
+
+\subsection{Restricted Boltzmann Machine}\label{sec:rbm}
+
+Restricted Boltzmann machine is a energy-based generative model which include hidden and visible variables (ref to Metha). It consists of a two-layer network with a two dimensional matrix $W_{ij}$ telling how strong the connections between the hidden and visible nodes are. The energy related to a configuration of the nodes is what forms the basis of our model. It is given in \eqref{eq:E_rbm}.
+
+\begin{equation}\label{eq:E_rbm}
+E(\mathbf{v}, \mathbf{h}) = - \sum_{i} a_i(v_i) - \sum_{\mu} b_j(h_j) - \sum_{ij} W_{ij}v_i h_j 
+\end{equation}
+
+Here $a_i(v_i)$ and $b_j(h_j)$ are bias functions of the visible and hidden layers which we are allowed to choose our self. In our case we want the visible layer to take a continuous form and the hidden layer to be binary, (Gaussian-binary), meaning $a_i$ and $b_j$ takes the following from
+
+$$a_i(v_i) = \frac{v_i^2}{2 \sigma_i^2}, \ \ \ b_j(h_j)= b_jh_j.$$
+
+We are working with restricted Boltzmann machine meaning there is no connection between nodes within layers, only between layers. Also this network is a generative one so we want our network to learn a probability distribution. We begin with the joint probability distribution of the visible and hidden nodes is given in \eqref{eq:F_rbm_joint} where $Z$ is the partition function, see \eqref{eq:Z}. 
+
+\begin{equation}\label{eq:F_rbm_joint}
+F_{rbm} (\mathbf{X}, \mathbf{h}) = \frac{1}{Z} e^{-E(\mathbf{X}, \mathbf{h})}
+\end{equation}
+
+\begin{equation}\label{eq:Z}
+Z = \int \int \frac{1}{Z} e^{-E(\mathbf{X}, \mathbf{h})} d\mathbf{x}d\mathbf{h}
+\end{equation}
+
+From \eqref{eq:F_rbm_joint} we can marginalize over all the hidden units and get the distribution over the visible units. And as mentioned above this is what we use to represent our wave function. 
+
+\begin{align}\label{eq:F_rbm_marg}
+F_{rbm} (\mathbf{X}) &= \sum_{\mathbf{h}} F_{rbm} (\mathbf{X}, \mathbf{h}) \\
+&= \frac{1}{Z} \sum_{\mathbf{h}} e^{-E(\mathbf{X}, \mathbf{h})}
+\end{align}
+
+Since we have no data to train we use the technique of reinforcement learning. We feed the network with input using Monte Carlo method and based on the variational principle we find the ground state of the system by seeking the configuration that gives the lowest quantum mechanical energy. According to this principle we change the weights and biases by gradient descent method and hopefully the network will converge towards the correct state.  
+
+\subsection{Representing the wave function}
+
+Our wave function is given from the energy of the restricted Boltzmann machine, see \eqref{eq:E_rbm}, which is the joint energy functional between the visible and hidden nodes. From the marginal probability of the joint probability distribution, see \eqref{eq:F_rbm_marg}, we get our wave equation.                     
+
+\begin{align}\label{eq:F_rbm}
+\Psi(X) &= F_{rbm}(X) \\
+&= \frac{1}{Z} \exp \left( -\sum_{i}^{M} \frac{(X_i - a_i)^2}{2 \sigma^2} \right) \prod_{j}^{N} \left( 1 + \exp \left( b_j + \sum_{i}^{M} \frac{X_i \omega_{ij}}{\sigma^2} \right) \right)
+\end{align}
+
+Here $Z$ is the partition function, $X_i$ represents the visible nodes running up to $M$, and $a_i$ and $b_j$ are the biases described in the section below, \eqref{sec:rbm}, where number of hidden nodes $j$ runs up to $N$. 
+$\omega_{ij}$ is an $M \times N$ matrix holding the weights connecting the visible nodes with the hidden and $\sigma$ is the standard deviation of the noise in our model. \\
+
+
+\section{Cost functions}
+
+\section{Gibbs Sampling}
+
+We represent the wave equation on a new form. This requires that the wave function is positive definite. 
+
+\begin{equation}\label{eq:Gibbs}
+\psi(x) = \sqrt{(F_{rbm})}
+\end{equation}
+
+Rather than on the form we have used before.
+
+\begin{equation}\label{eq:Gibbs_new}
+\psi(x) = (F_{rbm})
+\end{equation}

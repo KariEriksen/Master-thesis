@@ -1,0 +1,133 @@
+Some introduction containing historical information and stuff, and motivation for this section. 
+Configuration interaction, Many-body perturbation theory, Coupled-cluster 
+Electron correlation,
+Large systems, few with a corresponding analytical solution, in most cases we must turn to numerical tools. 
+Solving the Schrödinger equation, analytical and now numerical
+
+Many-body algebraic methods originate from quantum field theory \cite{shavitt2009many}
+
+\section{Classical Mechanics}
+
+In classical mechanics a particles state is described by two variables, the particles position and its momenta. For a system of N particles the position and the momentum, $q = (\vec{r}_1, \cdots,\vec{r})_N$ and $p = (\vec{p}_1, \cdots,\vec{p}_N)$, together form a point $\xi(q, p)$ in a two-dimensional \textit{phase space} $\in \mathbb{R}^{2 \cdot n}$ \cite{kvaal}. The phase space contains all the possible values for these two variables.
+The state variables are governed by \textit{Hamilton's equation of motion},
+
+\begin{align}
+\dot{q} &= \frac{\partial}{\partial p} \mathscr{H} (q, p) \\
+\dot{p} &= -\frac{\partial}{\partial q} \mathscr{H} (q, p),
+\end{align}
+
+where $\mathscr{H}$ is the $\textit{Hamiltonian}$, an operator that we interpret as the total energy of the system. To see this we write out a special case within the classical Hamiltonian dynamics
+
+\begin{align}
+\mathscr{H}(q,p) &= \mathscr{T}(p) + \mathscr{V}(q) + \mathscr{W}(q) \\
+&= \frac{1}{2m} \sum^N_{i=1} |\vec{p}_i|^2 + \sum^N_{i=1} v(\vec{r}_i) + \frac{1}{2} \sum^N_{i \neq j} w(r_{ij})
+\end{align}.
+
+This is the Hamiltonian for N particles of mass m, with inter-particle reaction through the force of a central potential $w(r_{ij}) = |\vec{r}_i - \vec{r}_j|$, moving in an external potential field $v(\vec{r})$. We recognize the first term as the $\textit{kinetic energy}$, the second term as the $\textit{external potential energy}$, and the final term as the $\textit{interaction energy}$.
+
+\section{Quantum Mechanics}
+
+In ordinary quantum mechanics an observable is a linear operator acting on a Hilbert space. Position operator and momentum operator, other observable quantities like angular momentum, energy, and so on, are linear operators constructed out of linear combinations of products of the position and momentum.\cite{kvaal}
+Atomic units, all equal 1.
+Hamiltonian 
+
+\subsection{Canonical quantization}
+
+In order to move from the classical Hamiltonian description of a particle system to the quantum mechanical description we now look at canonical quantization. 
+In classical mechanic we described the state of a system as a point in phase space. In quantum mechanics however the state is a vector containing all information about the system. The $\textit{quantum state}$, $\psi$, is a complex-valued vector state in an infinite $\textit{Hilbert space}$, i.e. a complete vector space with an inner product. The inner product will represent a complex number that link two elements within the vector space. 
+
+Where the measurement of variables in the classical case was given through an observable $\omega(q, p)$, the quantum observable is an $\textit{Hermitian}$ (self-adjoint) operator $\Omega$. The operators value in the state $\psi$ is called an $\textit{expectation value}$.
+In quantum mechanics we work with expectation values, this because we can not measure a particles quantities accurate. We do not know where the particles will be at a given time, so we work with probabilities. We can measure the probability of a particle being at a certain place at a certain time. So the expectation value tells us the likeliest position or momentum of a particles state. 
+Given a system of identical particles, what we work with in quantum mechanics, they have position. But also an extra internal degree of freedom, spin. Coordinate $x = (\vec{r}, s)$. Then our state $\psi(x_1, \cdots , x_N)$ is the wave equation that depends on all coordinates and $(x_1, x_2, \cdots , x_N) \in X^N$ is a point in the configuration space of N particles. 
+
+\begin{equation}
+\expval{\Omega} = \expval{\hat{\Omega}}{\psi} = \int \psi (x_1, \cdots , x_N)^\ast [\hat{\Omega} \psi (x_1, \cdots, x_N)] dx_1 \cdots dx_N
+\end{equation}
+
+We can obtain all physical properties of the system through the state $\psi$.
+So how do we move from the classical case to the quantum mechanical one? Canonical quantization is a procedure where we rewrite the classical coordinates $\xi(q, p)$ to operators $(\hat{q}, \hat{p})$. This is done through the canonical commutation relations.
+
+\begin{equation} \label{eq:commutation}
+\{q_i, p_j\} = \delta_{ij} \Longrightarrow [\hat{x}_i, \hat{p}_j] = i \hbar \delta_{ij}
+\end{equation}
+
+The left side of this equation tells us that our coordinate system in the classical case is canonical. We turn the Poisson brackets in to commutation relations to determine the new operators. 
+The new 
+
+\begin{equation}
+\hat{x}\psi = x \psi \ \ \text{and} \ \ \hat{p} \psi = -i \hbar \frac{\partial \psi}{\partial x}
+\end{equation}
+
+But the Hilbert space is also a part of the solution and is often chosen as the space of square-integrable function, $L^2$. This is convenient since the state $\psi$, in quantum mechanics interpreted as the wave equation, has a associated probability given by itself squared,
+
+\begin{equation}
+P(x_1, \cdots, x_N) = |\psi(x_1, \cdots, x_N)|^2.
+\end{equation}
+
+Where $P(x_1, \cdots, x_N)$ is the probability of the system being in its given state. Since the particles has to be somewhere, the sum over all probabilities must equal one, 
+
+\begin{equation}
+\int_{X^N} |\psi(x_1, \cdots, x_N)|^2 d x_1 \cdots d x_N = 1.
+\end{equation}
+
+The wave function is a map, a Fourier transformation? 
+
+\begin{equation}
+\psi : X^N \longrightarrow \mathbb{C}
+\end{equation}
+
+\subsection{Canonical transformation}
+
+A one-to-one algebra morphism of an observable, u, onto itself leaving the canonical commutation relations invariant. The canonical transformation is a map, $u \rightarrow u$ 
+
+Suppose $X = (Q, P) = F(\xi) = F(q, p)$ is a differentiable coordinate change such that $F^{-1}$ exits and is differentiable, and such that $\{Q_j, P_k\} = \delta_{jk}$. This is called a canonical transformation
+
+properties satisfying 
+
+-linearity
+-invariance
+-product conserving (s. 175 MBBS)
+
+\subsection{Second quantization}
+
+Now the particles themselves are discrete quanta created and destroyed with creation and annihilation operators
+
+Position operator 
+
+\begin{equation}
+[\hat{r_i} \psi](x_1, \cdots, x_N) = r_i \psi (x_1, \cdots, x_N) 
+\end{equation}
+
+Momentum operator 
+
+\begin{equation}
+[\hat{p_i} \psi](x_1, \cdots, x_N) = -i \hbar \nabla_i \psi (x_1, \cdots, x_N) 
+\end{equation}
+
+Fock space
+
+\subsection{symmetri}
+Symmetric states, bosons. Why they differ from fermions.
+How does this effect the wave equaiton
+
+\section{The Schrödinger equation}
+
+With a change of basis we can take the Heisenberg picture of quantum mechanics and move to the Schrödinger formalism where the states evolve in time and the operators are constant. 
+
+\begin{equation}
+i \hbar \frac{\partial}{\partial t} \ket{\psi(t)} = \hat{H} \ket{\psi(t)}
+\end{equation}
+
+We are searching for the ground state of our system, which means it is sufficient to look at the time-independent Schrödinger equation.
+
+\begin{equation}
+\hat{H} \psi(x_1, x_2, \cdots, x_N) = E \psi (x_1, x_2, \cdots, x_N)
+\end{equation}
+
+The many-body Hamiltonian (s. 12) 
+
+one-body operator  
+
+two-body operator
+
+\section{The Harmonic Oscillator}
