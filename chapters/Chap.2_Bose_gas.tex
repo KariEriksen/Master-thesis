@@ -35,21 +35,40 @@ We will come back to this, but first, lets look at one of the most important for
 
 \subsection{Particle statistics}
 
-OBS: lese om partition function i boka hjemme!
+For non-interacting non-distinguishable particles in a box of volume V the \textit{partition function} is given by 
 
+\begin{equation}
+Z_{tot} = \frac{1}{N!} Z_1^N
+\end{equation}
 
-Picture a system in thermal equilibrium with a reservoir with temperature T, a canonical system. Then we know from thermal physics that the probability of finding a system in any particular microstate $s$ with energy $E(s)$ is given by \eqref{eq:prob_boltzmann}.
+where $N$ is the number of particles, $N!$ the number of way one can arrange these within the system, or microstates, and $Z_1^N$ the partition function of each particle, i.e. the partiotion function is the sum over all states.  
+If the distance between the particles are such that the probability of two particles wanting to occupy the same single-particle state is very low, then we can ignore quantum effects. $Z_1 \gg N$, to say that the number of states is much greater than the number of particles. This is equivalent to the statement that
+
+\begin{equation}
+\frac{V}{N} \gg v_Q
+\end{equation}
+
+which says that particle density is much greater than the quantum volume. 
+However if this is not the case then it matters a great deal if we are dealing with fermions or bosons. The description of the partition function no longer makes sense, because in the case of fermions the particles will fight over the lowest states since they can not occupy the same ones. Bosons however do not have such a restriction and can all fall to the lowest energy state. So the term $N!$ will be different in the two cases. We will look closer at the particle distribution of gases in the non-classical limit containing different particles, we turn to quantum statistics.
+
+Picture a system in thermal equilibrium with a reservoir with temperature T, this system is called a canonical ensemble. Then we know from thermal physics that the probability of finding a system in any particular microstate $s$ with energy $E(s)$ is given by \eqref{eq:prob_boltzmann}.
 
 \begin{equation} \label{eq:prob_boltzmann}
 P(s) =  \frac{1}{Z} e^{-E(s)/kT}    
 \end{equation}
 
-The exponent is the Boltzmann factor, $e^{-E(s)/kT}$, where $k$ is the Boltzmann constant and $T$ the temperature of the reservoir. $Z$ is called the \textit{partition function}, the sum over all Boltzmann factors i.e. the sum over all states. This is easily seen if we use the fact that the sum of all possibilities must equal 1. The particle must be in one of the states. 
+The exponent is the Boltzmann factor, $e^{-E(s)/kT}$, where $k$ is the Boltzmann constant and $T$ the temperature of the reservoir. Now the partition function is the sum over all Boltzmann factors. This is easily seen if we use the fact that the sum of all possibilities must equal 1. The particle must be in one of the states. 
 
 %Average values: page 230 thermal physics
 
 \begin{equation}
 1 = \sum_s P(s) = \sum_s \frac{1}{Z} e^{-E(s)/kT} = \frac{1}{Z} \sum_s e^{-E(s)/kT}
+\end{equation}
+
+For non-interacting particles in thermodynamic equilibrium the mean occupancy number is given by the Boltzmann distribution. This is interpreted as the average number of particles occupying a state with corresponding energy $E(s)$, from now on called $\epsilon$. $\mu$ is the chemical potential.
+
+\begin{equation}
+\overline{n}_{Boltzmann} = e^{-(\epsilon - \mu)/kT}
 \end{equation}
 
 If we now look at a system where the system is allowed to exchange particles with the environment as well as the energy, the factor in the exponential changes. And we end up with the Gibbs factor. 
@@ -58,15 +77,15 @@ If we now look at a system where the system is allowed to exchange particles wit
 \text{Gibbs factor} = e^{-[E(s) - \mu N(s)]/kT}
 \end{equation}
 
-We are now looking at a grand canonical system, and the partition function from before is now a grand partition function.
-Now we can calculate the probability of a system containing N particles being in the state s(N) with corresponding energy E(s).
-$\mu$ being the chemical potential of the reservoir that is effectively constant, T also constant.
+We are now looking at the grand canonical ensemble, and the partition function from before is now a grand partition function.
+Now we can calculate the probability of a system containing N particles being in the state s with corresponding energy $\epsilon$.
+$\mu$ being the chemical potential of the reservoir that is effectively constant, T is also held constant.
 
 \begin{equation}
-P(n) = \frac{1}{Z} e^{-n(\epsilon - \mu)/kT}
+P_{\epsilon}(n) = \frac{1}{Z} e^{-n(\epsilon - \mu)/kT}
 \end{equation}
 
-We want to find the average number of particles being in one energy state $\epsilon_{\mu}$, i.e. the distribution of particles over energy states. Lets consider the probability of a particle occupying a single-particle state. 
+We want to find the average number of particles being in one energy state $\epsilon$, i.e. the distribution of particles over energy states. Lets consider the probability of a particle occupying a single-particle state. 
 
 If we begin looking at fermions, we know they obey the Pauli exclusion principle, and the grand partition function for the one particles is given by \eqref{eq:partition_fermion}.
 
@@ -77,84 +96,63 @@ Z = 1 + e^{-(\epsilon - \nu)/kT}
 Since the particle can either occupy the state or not we get the following.
 
 \begin{equation}
-\overline{n} = \sum_n n P(n) = \frac{e^{-(\epsilon - \mu)/kT}}{ 1 + e^{-(\epsilon - \mu)/kT}} = \frac{1}{e^{-(\epsilon - \mu)/kT} + 1}
+\overline{n} = \sum_n n P_{\epsilon}(n) = \frac{e^{-(\epsilon - \mu)/kT}}{ 1 + e^{-(\epsilon - \mu)/kT}} = \frac{1}{e^{-(\epsilon - \mu)/kT} + 1}
 \end{equation}
 
-Forklar denne funksjonen...
+And the average number of fermions in a state is given by \eqref{eq:distribution_fermions}.
 
-\begin{equation}
-\overline{n}_{FD} = \frac{1}{e^{(\epsilon_{\nu} - \mu)/kT} + 1}
+\begin{equation} \label{eq:distribution_fermions}
+\overline{n}_{FD} = \frac{1}{e^{(\epsilon - \mu)/kT} + 1}
 \end{equation}
 
-Since bosons can occupy the same state, the partition function  for bosons becomes different. 
+Since any number of bosons can occupy the same state at the same time, the partition function looks different. 
 
 \begin{equation}
 Z = \frac{1}{1 - e^{-(\epsilon - \mu)/kT}}
 \end{equation}
 
-Also now we 
+And the calculation of the average is somewhat more difficult, but using the equality 
+
+\begin{equation}
+\sum_n -n e^{-nx} = \sum_n \frac{\partial}{\partial x} e^{-nx},
+\end{equation}
+
+we find the average solving the derivative, where $x \equiv (\epsilon_{\nu} - \mu)/kT$.
 
 \begin{equation}
 \overline{n} = \sum_n n \frac{e^{-nx}}{Z} = -\frac{1}{Z} \sum_n \frac{\partial}{\partial x} e^{-nx} = -\frac{1}{Z} \frac{\partial Z}{\partial x}
 \end{equation}
 
-Here $x \equiv (\epsilon_{\nu} - \mu)/kT$
+And the average number of bosons being in a state is given by \eqref{eq:distribution_bosons}.
 
-\begin{equation}
-\overline{n}_{BE} = \frac{1}{e^{(\epsilon_{\nu} - \mu)/kT} - 1}
+\begin{equation} \label{eq:distribution_bosons}
+\overline{n}_{BE} = \frac{1}{e^{(\epsilon - \mu)/kT} - 1}
 \end{equation}
 
-Now we have come to quantum statistics.
-The average number of particles being in an energy state $\epsilon_{\nu}$.
-
-For non-interacting particles in thermodynamic equilibrium the mean occupancy number is given by the Boltzmann distribution.
-
-\begin{equation}
-\overline{n}_{Boltzmann} = e^{-(\epsilon_{\nu} - \mu)/kT}
-\end{equation}
-
-\begin{figure}
+\begin{figure} 
     \centering
     \includegraphics[width=0.7\textwidth]{images/distributions.png}
-    \caption{Fermi-Dirac dist. goes to 1 for $\epsilon_{\nu} \gg \mu$}
-    \label{fig:dist_therm_stat}
+    \caption{The distribution of Boltzmann, Bose-Einstein and Fermi-Dirac gases over energy.}
+    \label{fig:distribution_quantum_particles}
 \end{figure} 
-s269
 
-In the case of Bose-Einstein: as temperature decreases, $\epsilon - \mu$ goes to zero ($\epsilon$ goes to $\mu$), the distribution diverges. The particles occupy the ground state.
-
-Fermi-Dirac: as T increases towards 0, the distribution becomes a step-function.
-
-Read further page 251 Thermal Physics \cite{ThermalPhysics}
-When $\epsilon_{\nu}$ is much greater than $\mu$ the term $\pm 1$ in the denominator of both expressions and they reduce to the Boltzmann distribution. 
-
+\figref{fig:distribution_quantum_particles} show the distribution for the different particles. For the Fermi-Dirac gas the distribution goes to 1 as temperature decreases, when $\epsilon \approx \mu$. If we were to lower the temperature toward zero, then the Fermi-Dirac distribution becomes a step-function. 
+The Bose-Einstein distribution diverges as the temperature decreases, when $\epsilon - \mu$ goes to zero. All the particles will occupy the ground state. 
+When $\epsilon$ is much greater than $\mu$ the term $\pm 1$ in the denominator of both expressions becomes irrelevant and they reduce to the Boltzmann distribution, \cite{ThermalPhysics}.
 
 \subsection{The ideal Bose gas}
 
+Classical case, Boltzmann distribution
 Uniform density: particles in a box with voloum V.
 Density inside box: n = N/V
 
-Classical case, use Boltzmann distribution
-The termodynamics of an ideal Bose gas is best calculated using the grand canonical ensamble. Then the partition function is 
+Energy spectrum/particle energy: $\epsilon = \hbar^2 k^2/2m$
 
-\begin{equation}
-Z(\mu, \beta, V) = \prod_i (1 - \mu e^{(-\beta \epsilon_i)})^{g_i}
-\end{equation}
+The termodynamics of an ideal Bose gas is best calculated using the grand canonical ensamble.
 
-Is This correct?? Check book
+Above a temperature $T_c$: classical case
+Below this temp we must take quantum effects into account. 
 
-Ground state energy
-
-The ideal bose gas is straight forward and have been solved analytically and numerically by many. Weak interacting bosons is also a case that has been studied to a great extent. If we where to add strong interaction the system may do a number of things, flipping of spin, excitation etc.
-
-
-The ability of bosons at low temperature to collectively inhabit the same energy state, compared to fermions who are restricted to the Pauli exclusion principle.
-
-Free Bose gas - 
-
-\begin{equation} \label{eq:hamilt_free_bose_gas}
-H^{free}_V = \int_V dx \frac{1}{2m} \nabla a*(x). \nabla a(x)
-\end{equation}
 
 
 \section{Bose gas in a trap}
@@ -162,22 +160,44 @@ H^{free}_V = \int_V dx \frac{1}{2m} \nabla a*(x). \nabla a(x)
 As mentioned above, methods for trapping and cooling alkali atom clouds have developed over the last decades, and these systems have been explored considerably. We will now look closet at a Bose gas confined within such a trap and look at the properties of the condensate.
 For the BEC the theoretical framework lies within the Gross-Pitaevskii equation, derived by Eugene P. Gross and Lev Petrovich Pitaevskii each in therir own separately papers, 1961.
 
-
 The Gross-Pitaevskii equation form the basis of studies of dilute Bose gases at zero temperature. It gives the ground-state energy of a system of identical bosons.
 
 Trap: a harmonic oscillator potential trap. 
 
 Consider a dilute Bose gas where the inter-particle distance is much greater than the scattering length. It can be approximated by a mean field theory. We describe it by a simple hard-sphere effective potential. (Master Joachim)
 
-Gross-Pitaevskii - analogy to the Schrödinger equation. 
 
 \subsection{The Gross-Pitaevskii equation}
 
+\begin{equation}
+\hat{H} = \int d^3 r \left[ \hat{\psi}^{\dagger}(T + V_{trap})\hat{\psi} + \frac{V_{int}}{2} \hat{\psi}^{\dagger} \hat{\psi}^{\dagger} \hat{\psi} \hat{\psi} \right]
+\end{equation}
+
+
+
 The time-independent Gross-Pitaevskii equation reads as follows
 
-\begin{equation} \label{Gross-Pitaevskii}
-\left( -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial r^2} + V(r) + \frac{4 \pi \hbar^2 a_s}{m}|\psi(r)|^2 \right) \psi(r) = \mu \psi (r)
+\begin{equation} \label{eq:Gross-Pitaevskii}
+-\frac{\hbar^2}{2m} \nabla^2 \psi (\textbf{r})  + V(r) \psi (\textbf{r}) + U_0|\psi(r)|^2 \psi (\textbf{r}) = \mu \psi (\textbf{r})
 \end{equation}
+
+First term in the Hamiltonian we recognise as the kinetic energy term, $U_0 = \frac{4 \pi \hbar^2 a_s}{m}$ is the effective interaction between two particles at low energy, a constant in the momentum representation. In coordinate space this corresponds to a contanct interaction $U_0 \delta(\textbf{r} - \textbf{r'})$
+
+\begin{equation}
+V_{trap}(\textbf{r}) = \frac{1}{2} m (\omega_{\perp} x^2 + \omega_{\perp} y^2 + \omega_{z} z^2)
+\end{equation}
+
+particle density is
+
+\begin{equation}
+n(\textbf{r}) = |\psi(r)|^2
+\end{equation}
+
+total number of particles is constant
+\begin{equation}
+N = \int d\textbf{r}|\psi(r)|^2
+\end{equation}
+
 
 For a uniform Bose gas, the GP equation is very simple.
 
@@ -238,7 +258,8 @@ Many models have been suggested to create a microscopical theory of the superflu
 
 The properties of these liquids are described in terms of the spectrum of the collective excitations.
 
-\subsection{The wave function}
+\subsection{Hamiltonian}
+
 We are studying a system of two electrons confined in a harmonic oscillator trap described by the Hamiltonian 
 
 \begin{equation}\label{eq:hamilt_trap}
@@ -265,6 +286,27 @@ where the first sum is the standard harmonic oscillator part and the last is the
  \end{array}
 \end{equation}
 
+\subsection{Scattering Theory}
+
+page 106 
+
+To describe scattering 
+\begin{equation}
+\psi =  e^{ikz} + \psi_{sc}(\textbf{r})
+\end{equation}
+
+At low energies s-wave scattering is sufficient to consider scattering. 
+
+\begin{equation}
+\psi = 1 - \frac{a}{r}
+\end{equation}
+
+a is the scattering length
+
+\subsection{The wave function}
+
+
+
 
 
 \subsection{The ground-state energy}
@@ -276,6 +318,52 @@ At low temperature, liquid helium ($^4$He) becomes a superfluid, but because of 
 Thermal physics book, page 168:
 Phase shift of Helium-4: at low temp, below 2.2 K it turns to superfluid.
 Above this temp. and pressure around 1 bar and up, it is normal liquid. For temp 
+
+
+\subsection{Particle in a box}
+
+Infinte square well in one dimension
+
+\begin{equation} \label{eq:potential_infinit_sq_well}
+ V(x) =  \Bigg\{
+ \begin{array}{ll}
+	 0 & \text{if}\ 0 \leq x \leq L,\\
+	 \infty & \text{otherwise}
+ \end{array}
+\end{equation}
+
+\begin{equation}
+- \frac{\hbar^2}{2m} \frac{d^2 \psi}{dx^2} = E \psi
+\end{equation}
+
+or 
+
+\begin{equation}
+\frac{d^2 \psi}{dx^2} = -k^2 \psi, \ \ \ \text{where}\ k \equiv \frac{\sqrt{2mE}}{\hbar}
+\end{equation}
+
+which we recognise as a simpler harmonic oscillator, \eqref{eq:harmonic_oscillator}.
+
+Given boundary conditions we get the distinct solution 
+
+\begin{equation}
+\psi(x) = A \sin(kx)
+\end{equation}
+
+with 
+
+\begin{equation}
+k_n = \frac{n\pi}{L}, \ \ \ \text{with}\ n = 1, 2, 3, ...
+\end{equation}
+
+With energy levels
+
+\begin{equation}
+E_n = \frac{\hbar^2 k_n^2}{2m}
+\end{equation}
+
+Now if we extend this problem into multiple dimensions
+
 
 \subsection{Liquid $^4$He}
 Due to the strong correlation between the atoms in liquid helium, a mean-field approach is inapplicable. Dilute gas, but still interaction plays an important role when temperature is so low. 
@@ -294,6 +382,8 @@ Liquid 4-Helium: the energy of dispersion $\epsilon = sp$ s being the velocity o
 
 \subsection{Lennard-Jones potential}
 
+Absence of an external field? The dominating forces is the Van-der-Waals
+For a pair of neutral atoms or molecules the dominating forces are described by the lennard-jones potential. 
 
 \begin{equation} \label{eq:hamilt_box}
 \hat{H} = \sum_{i=1}^N - \frac{1}{2} \nabla_i^2  + \sum_{i<j} V(r)
@@ -302,3 +392,9 @@ Liquid 4-Helium: the energy of dispersion $\epsilon = sp$ s being the velocity o
 \begin{equation} \label{eq:lennard-jones}
 V(r) = 4\epsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
 \end{equation}
+
+attractive long-range van der Waals
+and repulsive force, short range, due to overlapping of electron orbital.
+$\epsilon$ is the depth of the potential well, $\sigma$ is the distance at which the inter particle potential is zero.
+
+An approximation, no theoretical justification. From experiments,

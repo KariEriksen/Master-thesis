@@ -1,35 +1,217 @@
-Some introduction containing historical information and stuff, and motivation for this section.
+The amount of data in the world today, we need methods to analyse, better and faster. 
+Computer science, statistics, mathematics. Methods that can be applied to several branches of science, finance, physics, chemistry, medicine, etc. Important in cosmology, engineering , biophysics 
+
+Suddenly one hears talk of machine learning in many new platforms, radio talk shows, media, the industry is getting more and more interested. Just within the last couple of years machine learning has become a term that people outside of data science and statistical physics known about. 
+
+Sounds like a magical thing, but as we will see during the theory section, some of the most simple statistical methods is reckoned as a method within machine learning.  
+
+What is machine learning? Basically we have some data that we want to analyse, and given a function for measuring the computer is able to find patterns in the data. Depending on what we want is estimate or predict new data. 
+
+Three main groups of machine learning techniques; supervised, unsupervised and reinforcement learning. The lines between this can sometimes be blurred. 
+
+History: 
+
+1952, Arthur Samuel, computer program that could learn as it ran, playing checkers
+1958, Frank Rosenblatt designed the first artificial neural network, the Perceptron
+1959, Arthur Samuel (wiki), IBM, invented the term machine learning
+
+1960's, book by Nilsson on the topic
+1980's, interest in NN started rising again and Hinton Hopfield and Rumelhart, suggested backpropagation 
+1982, Hopfield suggested a network with bidirectional lines
+
+1990's, started to flourish as a separate field. 
+1997, Deep Blue, chess-playing computer that beat the world chess champion Kasparov
+1998, AT\& T Bell Laboratories detecting handwritten postcodes from the US Postal Service.
+
+Have evolved from the field of AI, some ML techniques are closely similated to computer science, some have strong resemblance to classical statistics and deep neural networks developed from the study of human brain. Study of synaptic connections in the brain, with neurons firing off. Simple integrate-and-fire neuron model (or activation functions) to large connected networks.  
+
+Machine learning: how to learn from, and make predictions about, data. \cite{mehta2019high}
+Subfield of artificial intelligence. Usually we try to predict than to estimate.
+
+Given some observable quantity $\mathbf{x}$ of the system we wish to study with an related parameter $\mathbf{w}$ of a model $p(\mathbf{x}|\mathbf{w})$ describes the probability of $\mathbf{x}$ given $\mathbf{w}$.
+Somehow obtain a dataset $\mathbf{X}$, use these data to fit the model, fitting means, try to find a $\hat{\mathbf{w}}$ using some maximization function, a cost function, to maximize the probability of observing the data. 
+$\hat{\mathbf{w}} = \text{argmax}_{\mathbf{w}}{p(\mathbf{X}|\mathbf{w})}$
+In case of estimation problems, we want to find the most accurate $\hat{\mathbf{w}}$ where as prediction problems are concerned with the accuracy of the model, $p(\mathbf{x}|\mathbf{w})$, being able to predict new observations. 
+
+Was first explored when studying signal processing in the brain. 
+Artificial neuron: each neuron must exceed an activation threshold in order to yield an output, it must be activated. Of the threshold is not made than the neuron remains inactivated, gives zero output.
+\begin{equation}
+y = f \left( \sum_{i=1}^n w_i x_i \right) = f(u)
+\end{equation}
+
+All machine learning techniques require assumptions. In our case it it the wave function. 
+
+\section{Supervised and unsupervised learning}
+
+Dataset $\mathcal{D} =(\mathbf{X}, \mathbf{y})$, and again $\mathbf{X}$ is a matrix of independent variables, $\mathbf{y}$ a vector of the dependent variables. The model $f(\mathbf{x}; \mathbf{\theta})$ is a function that tries to predict an output given the input. And with the cost function $\mathcal{C}(\mathbf{y}, f(\mathbf{X};\mathbf{\theta}))$ we can minimize the error between the predicted output and the true value of the observations $\mathbf{y}$. Fitting the model by minimizing the cost function.
+
+Typically one would use some of the data available to train, $\{\mathbf{X}_{train}, \mathbf{y}_{train}\}$ and some small amount to test the model on.
+Then one evaluates the model by testing it on some test data $\mathcal{C}(\mathbf{y}_{test}, f(\{\mathbf{X}_{test}; \theta)\})$
+
+
+
+Training set of examples, with a correct response (targets), algorithm generalises to respond correctly to all possible inputs. Called learning from examples.
+
+Supervised learning: discriminative models (classification and regression) 
+Must have training data, labeled data, input 
+Algorithm is trained from a data set, with a given target
+
+
+Algorithm generalises, must deal with noise. Overfitting and underfitting, goes for all ML methods. 
+
+unsupervised, algorithm can only exploit similarities in the data to cluster it
+Correct response is not given, instead algorithm tries to identify similarities between the input, so inputs with a common characteristics are categorised together. Density estimation.
+Dimensionality reduction, clustering
+
+\subsection{Linear Regression}
+
+Can be written, set of data, $(y_i, \mathbf{x}_i)$ where $\mathbf{x}_i$ is the input/the independent variable and $y_i$ is the response. i is the amount of data. 
+Lets say we are given a dataset of n samples, $\{ (y_i, \mathbf{x}^{(i)})\}_{i=1}^n$, where $\mathbf{x}^{(i)}$ is the i'th vector of the independent variables, and $y_i$ is the corresponding response. (My words) We wish to find a linear relationship between the independent variable and the response. I.e. the function that describes the response given the data. 
+
+\begin{equation}
+y_i = f(\mathbf{X}) = f(\mathbf{x}_i;\mathbf{w}) + \epsilon_i
+\end{equation}
+
+Where $\mathbf{X}$ is called the design matrix, $\mathbf{X} \in \mathbb{R}^{n \times p}$, containing all the samples. $\mathbf{w}$ is the parameters we wish to obtain, $\mathbf{w} \in \mathbb{R}^p$, it is the coefficients explicitly describing the function we seek. The column of the design matrix being measured features. $X^{\top} = \{X_0, X_1, X_2, X_3,..., X_p\}$
+
+\begin{equation}
+y_i = w_0 + w_1 x_{i1} + w_2 x_{i2} + w_3 x_{i3} + w_4 x_{i4} + ... + w_p x_{ip}
+\end{equation}
+
+\begin{equation}
+\mathbf{X} = 
+\begin{bmatrix}
+1 & x_{11} & x_{12} & \dots  & x_{1p} \\
+1 & x_{21} & x_{22} & \dots  & x_{2p} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \dots  & x_{np}
+\end{bmatrix}
+\end{equation}
+
+This is the matrix we use to solve our problem at hand, and denpending on the matrix having full column rank and the propertie $\mathbf{X^{\top}}\mathbf{X}$ being postive definit we will look at separate methods for finding solutions.
+
+The least square method selects the parameters $w$ so that residual sum of squares (RSS) is minimized.
+
+\begin{equation}
+\textnormal{RSS}(w) = \sum_{i=1}^{N} (y_i - x_i^{\top}w)^2
+\end{equation}
+
+Searching the minimum of the RSS, we take its derivative wrt. $w$. And we get
+
+\begin{equation}
+\hat{w} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}
+\end{equation}
+
+Hat indicating it is the estimated value. 
+This is the expresion we use in the ordinary least square-method in order to find the optimal $w$-values. This method depends on the propertie $\mathbf{X^{\top}}\mathbf{X}$ being postive definit in order to be able to calculate its inverse. In case it is not we must use other method.
+
 
 \section{Artificial Neural Networks}
 
-Input , output propagation
+Input layer, hidden layers, output layer, uses back propagation
 connections, neurons, weights, 
+Neural-inspired nonlinear models for supervised learning. 
+A supervised learning method. But can also be manipulated to work for unsupervised, ref. to Bendik? 
 
-\subsection{Reinforcement learning}
+We can divide neural networks into four categories; general networks for supervised learning, networks designed for image processing, most common one being Convolutional Neural Networks (CNN), networks for sequential data such as Recurrent Neural Networks (RNN) and networks for unsupervised learning such as Deep Boltzmann Machine. 
+
+Multi layered perceptron, a network based on stochastic neuron on thos form, page 369, is known as a boltzmann machine. 
+
+\subsection{Feed-forward Neural Network}
+
+The first and most simplest type of neural network 
+9.1.1 i Mehta
+
+\section{Reinforcement learning}
+
+Somewhere in between supervised and unsupervised learning. Algorithm is told when it is wrong but is not told how to correct it. Has to explore and try different possibilities until it works out how to get the answer right. 
+Sometimes called learning with a critic, 
+
+page 231 \cite{marsland2014machine}
+
+game theory, game AI, Robot navigation
+
+trail-and-error, a search method, reward and punishment. 
+
+agent-environment-reward, try a state, a reward function evaluates the current solution
 
 Do not have training data
 Trained by lowering the Markov chain cost.
 Markov chain process, probability distributions, next process depends one the previous
 
+Since we have no data to train the model on, is overfitting an issue in this case? 
+Another problem is the complexity of the system, if our trail wave function is not close enough to the exact wave function or can possibly never describe the exact one because it is not complex enough. So we never reach the exact solution. 
+
+read: \cite{mehta2019high}, Mehta on exploration and exploitation
+
+
+\section{Energy based models}
+
+As mentioned in theory of VMC, many problems in mechanics deal with seeking the energy of a system. Usually the ground state energy. Thermodynamics tells us that every system tries to lower its energy, and this we can take advantage of in energy based models, where we describe the network at hand given an energy model. Typically these types of system have a connecting probability distribution, representing the behavior and characteristics of the system. 
+
+Unlike discriminative models where on tries to perceive differences between data or categories data, energy based models can draw new examples from a probability distribution. Such a method is called a generative model. 
+
+Are closely related to statistical methods, such as Monte Carlo.  \cite{mehta2019high}
+Core idea is to produce a probability distribution given the data. From this model we are able to generate new samples. 
+Thoughts one generative models: how complex are they to write, and to run (time consuming), how well does the model generalize from training to test and last, which characteristics of the data distribution is the model capable of.
+Simple models may not capture structure of a distribution
+Complex model may overfit 
+Gradient methods for minimizing cost functions
+Energy based models do NOT use backpropagation. 
+Turn to ideas inspired by MCMC, most common Restricted Boltzmann Machine
+
+Methods where one rewrites the problem to an minimization of energy case. The probability distribution can be the Boltzmann distribution which is dependent on the energy of the system. The energy one tries to minimize. In statistics one deals with observed values $\langle f_i \rangle_{obs}$, which we do not have access to, Instead we replace the observables with empirical averages calculated from data as $\langle f_i \rangle_{data}$ \cite{mehta2019high}.
+
+\subsection{Variational methods}
+\cite{mehta2019high}
+When dealing with complicated probability distributions, it is often much easier to learn from the relative weights of different states or data points (ratio of probability), than absolute probabilities.  Weights of a Boltzmann distribution are mush easier calculated than the partition function. 
+The relative probability of two configurations, $\mathbf{x}_1$ and $\mathbf{x}_2$, are proportional to the difference between their Boltzmann weights.
+
+\begin{equation}
+\frac{p(\mathbf{x}_1)}{p(\mathbf{x}_2)} = e^{-\beta (E(\mathbf{x}_1) - E(\mathbf{x}_2))}
+\end{equation}
+
+Calculating the absolute probability requires knowledge of the partition function.
+
+\begin{equation}
+Z_p = \text{Tr}_{\mathbf{x}} e^{-\beta E(\mathbf{x})}
+\end{equation}
+
+Since the probability of the system being in state $\mathbf{x}_1$ is \eqref{eq:prob_boltzmann} dependent on all possible states, i.e. the partition function. 
+
+\begin{equation}
+p(\mathbf{x}) = \frac{e^{-\beta E(\mathbf{x}_1)}}{Z_p}
+\end{equation}
+
+And calculating it is usually both analytical and numerical difficult.
+For example, for the Ising model with N binary spins, the trace involves calculating a sum over $2^n$. In our case we will see that the energy term for the restricted Boltzmann Machine is a three part term where we must sum over both visible nodes as well as all hidden nodes. The number of possible configurations is a very large number, even if we used binary form, if continuous, then it is impossible to calculate over every possible configurations. This is computationally intractable. 
 
 \subsection{Generative model}
+
+\begin{equation}
+p(x) = \frac{1}{Z} e^{-\beta (E(x) - \mu N(x))}
+\end{equation}
+
+Partition function: estimate it using Monte Carlo (Mean Field Theory) 
 
 Can learn to represent and sample data from a probability distribution.
 
 a model of the conditional probability of the observable X given the target Y. 
 
-\section{Machine Learning using Monte Carlo calculations}
+Minimizing a cost function using stochastic gradient descent: look closer on this when we describe contrastive divergence. 
 
-Gradient methods for minimizing cost functions
+\section{Restricted Boltzmann Machine}\label{sec:rbm}
 
-Markov Chain Monte Carlo methods (MCMC)
+History: restricted Boltzmann Machine was developed by Geoffrey Hinton, at the University of Toronto and Google. Read more.
 
-\subsection{Energy based models}
+\subsection{The Network}
 
-\subsection{Restricted Boltzmann Machine}\label{sec:rbm}
+RBM is a bipartite graph, which means that the nodes in each layer can be dealt with separately. We can use CD, see section below. 
+We can think of RBM as a two-layer neural network, with one visible and one hidden layer. This is similar to feed-forward neural network  with logistic activation (assuming hidden nodes are binary). Training is different, CD with Markov chain. Refer to section on artificial neural network
 
 Restricted Boltzmann machine is a energy-based generative model which include hidden and visible variables (ref to Metha). It consists of a two-layer network with a two dimensional matrix $W_{ij}$ telling how strong the connections between the hidden and visible nodes are. The energy related to a configuration of the nodes is what forms the basis of our model. It is given in \eqref{eq:E_rbm}.
 
+\subsection{The energy function}
 \begin{equation}\label{eq:E_rbm}
 E(\mathbf{v}, \mathbf{h}) = - \sum_{i} a_i(v_i) - \sum_{\mu} b_j(h_j) - \sum_{ij} W_{ij}v_i h_j 
 \end{equation}
@@ -57,6 +239,13 @@ F_{rbm} (\mathbf{X}) &= \sum_{\mathbf{h}} F_{rbm} (\mathbf{X}, \mathbf{h}) \\
 
 Since we have no data to train we use the technique of reinforcement learning. We feed the network with input using Monte Carlo method and based on the variational principle we find the ground state of the system by seeking the configuration that gives the lowest quantum mechanical energy. According to this principle we change the weights and biases by gradient descent method and hopefully the network will converge towards the correct state.  
 
+Because of the symmetric connection in a regular Boltzmann machine, it is actually a Markov Random Field. section 16.2 in book. 
+It is computational expensive because all nodes are dependent on one another. 
+So we turn to restricted Boltzmann Machine, all nodes in each layer is independent of each other. By treating each hidden neuron as an individual 'expert' and multiplying together their distribution for each visible neuron it is possible to compute the probability distribution for each visible neuron. And visa versa one finds the distribution over the hidden nodes by computing over the visible nodes. 
+
+The visible nodes are clamped during 'awake' training. 
+Algorithm used is called Contrastive Divergence (CD)
+
 \subsection{Representing the wave function}
 
 Our wave function is given from the energy of the restricted Boltzmann machine, see \eqref{eq:E_rbm}, which is the joint energy functional between the visible and hidden nodes. From the marginal probability of the joint probability distribution, see \eqref{eq:F_rbm_marg}, we get our wave equation.                     
@@ -67,12 +256,64 @@ Our wave function is given from the energy of the restricted Boltzmann machine, 
 \end{align}
 
 Here $Z$ is the partition function, $X_i$ represents the visible nodes running up to $M$, and $a_i$ and $b_j$ are the biases described in the section below, \eqref{sec:rbm}, where number of hidden nodes $j$ runs up to $N$. 
+
 $\omega_{ij}$ is an $M \times N$ matrix holding the weights connecting the visible nodes with the hidden and $\sigma$ is the standard deviation of the noise in our model. \\
 
 
-\section{Cost functions}
-
 \section{Gibbs Sampling}
+
+\subsection{Maximum Likelihood}
+
+Cost function: 
+In Maximum Likelihood estimation (MLE), maximize the log likelihood of the training data.
+Maximize the probability of the data (generating the observed data).
+
+Log likelihood based on $N$ training inputs, 
+
+\begin{align}
+\mathcal{L} &= \frac{1}{N} \sum_{n=1}^N \log p(\mathbf{x}^n, \mathbf{W}) \\
+&= \langle \log p(\mathbf{x}, \mathbf{W}) \rangle \\
+&= -\frac{1}{2} \langle (\mathbf{x}^n)^T \mathbf{W} \mathbf{x}^n \rangle_{\text{data}} - \log Z(\mathbf{W}) \\
+&= E_{\mathbf{h} \sim P(\mathbf{h}|\mathbf{v_n};W)}[\mathbf{v}_n^T \mathbf{h}] - E_{\mathbf{v}, \mathbf{h} \sim P(\mathbf{v},\mathbf{h};W)}[\mathbf{v}^T \mathbf{h}] \\
+=& \text{data term} - \text{model term}
+\end{align}
+
+Used the fact that our generative model takes a Boltzmann form and that the partition function is independent of the data. Now that we have our cost function we need a way to minimize it, one way is to use stochastic gradient descent. As we know from theory above, for this method we must have the gradient of log-likelihood to minimize. This must be derived with respect to the parameter the energy function is based on. 
+
+\subsection{Contrastive Divergence}
+
+
+In most cases the expectation value with respect to the model is difficult to compute, since it involves the partition function, which we mentioned is impossible to compute.
+We therefore approximate it using Gibbs samling. 
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}} = - \langle \frac{\partial \mathcal{L}}{\partial \mathbf{W}} \rangle_{\text{data}} + \langle \frac{\partial \mathcal{L}}{\partial \mathbf{W}} \rangle_{p(\mathbf{x}, \mathbf{W})}
+\end{equation}
+
+An alternative view on maximizing the log-likelihood is minimizing the difference between the two probability distributions, the one given the data and the one produced by the model. 
+What Hinton suggested was that instead of minimizing the difference between two probabilities, where one is expensive to compute, one minimizes the difference between the 
+This is sometimes in literature called a fantasy particle, which we produce with MCMC. 
+
+\subsection{Cost function}
+
+Here is where we deviate from what is common in machine learning, instead of a cost function based on some dataset, our cost function is the energy of the quantum mechanical system. Like in gradient descent, we use the function, \eqref{eq:energy_gradient}. 
+But now we must take in to account that we have four variational parameters instead of the one before, in VMC. So the first derivative of the wave function  
+
+\subsection{Algorithm}
+
+\cite{marsland2014machine}
+
+A Markov Chain Monte Carlo method for sampling expectation values. This is possible because the visible units and the hidden units are conditionally independent (restricted boltzmann machine). We sample from the joint distribution. 
+
+\begin{equation}
+p(\mathbf{v}|\mathbf{h}) = \prod_i p(v_i|\mathbf{h})
+\end{equation}
+
+\begin{equation}
+p(\mathbf{h}|\mathbf{v}) = \prod_j p(h_j|\mathbf{v})
+\end{equation}
+
+The idea of Gibbs is to iteratively sample from the conditional distributions $\mathbf{h}_{t+1} \sim p(\mathbf{h}|\mathbf{v}_t)$ and $\mathbf{v}_{t+1} \sim p(\mathbf{v}|\mathbf{h}_{t+1})$. At the end of the Gibbs sampling one ends up with a minibatch of samples, the so called fantasy particles mentioned before. But instead of doing $N$ such iterations/samples which would take a lot of time, we draw one time and then use this configuration and work the RBM. This is basically the Contrastive Divergence method. 
 
 We represent the wave equation on a new form. This requires that the wave function is positive definite. 
 
@@ -85,3 +326,26 @@ Rather than on the form we have used before.
 \begin{equation}\label{eq:Gibbs_new}
 \psi(x) = (F_{rbm})
 \end{equation}
+
+Conditional probability density functions: 
+conditional probability of a binary hidden unit $h_j$ being on or off takes the form of a sigmoid function:
+
+\begin{equation}
+p_{GB}(h_j = 1|\mathbf{x}) = \frac{1}{1 + e^{-b_j - (\frac{x}{\sigma^2})^T \mathbf{w}_{*j} }}
+\end{equation}
+
+The conditional probability of continuous $\mathbf{x}$ has another form,
+\begin{equation}
+p_{GB}(x_i = 1|\mathbf{h}) = \mathcal{N}(x_i|b_i +  \mathbf{w}^T_{i*}, \sigma^2_i)
+\end{equation}
+
+
+\begin{itemize}
+    \item Gibbs sampling 
+\begin{itemize}
+    \item Initialize $\mathbf{v}$
+    \item Sampling $\mathbf{h}$ with $P(\mathbf{h}|\mathbf{v})$
+    \item Sampling $\mathbf{v}$ with $P(\mathbf{v}|\mathbf{h})$
+    \item Iterate step 2 and 3
+\end{itemize}
+\end{itemize}

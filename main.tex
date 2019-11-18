@@ -30,6 +30,10 @@
 \usepackage{enumerate}
 \usepackage{physics}
 
+% Packages for network diagram
+\usepackage{tikz}
+\usetikzlibrary{positioning,decorations.pathreplacing,shapes}
+
 % Ref file
 \addbibresource{ref.bib}
 
@@ -100,11 +104,15 @@ Abstract goes here
 \input{chapters/results.tex}
  
 \chapter{Conclusion}
-\input{chapters/conclusion}
+\input{chapters/conclusion.tex}
 
 \appendix
-\chapter{Appendix Title}
-\input{chapters/appendix}
+\chapter{Appendix A}
+\input{chapters/appendix_a.tex}
+
+\chapter{Appendix B}
+\input{chapters/appendix_b.tex}
 
 \printbibliography[heading=bibintoc]
 \end{document}
+

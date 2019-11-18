@@ -65,12 +65,13 @@ P(\mathbf{R}_f|\mathbf{R}_i) \rho(\mathbf{R}_i) = P(\mathbf{R}_i|\mathbf{R}_f) \
 
 This implies the Markov chain be reversible. The probability flux between the two states $\mathbf{R}_i$ and $\mathbf{R}_f$ to be the same in both directions. \cite{toulouse2016introduction}
 
-
+Markov Chain Monte Carlo methods (MCMC): sampling from a probability distribution, create samples from multi-dimensional continuous random variable. Used in both Metropolis, importance and Gibbs
 
 \subsection{The Metropolis Algorithm}
 
 What is Metropolis algo? Explain some basics...
 Given a probability distribution force sampled values to follow this distribution. Employs a stochastic process, a Markov chain.
+Generates a Markov chain by suggesting a new move in configuration space
 
 How we select the new configurations during the simulation is given by the Metropolis Algorithm. 
 Ideally we would have a transition probability matrix which told us how likely it would be for each particle to move in the configuration space. Since we don't we try and model it.
@@ -156,11 +157,11 @@ $$\frac{p_i T_{i \rightarrow j}}{p_j T_{j \rightarrow i}} = \frac{G(x, y, \Delta
 
 and we must calculate the drift force in order to find new moves and the Green's function to accept/reject these moves.
 
-page 255 in Satistical and thermal physics using Python.
+page 255 in Statistical and thermal physics using Python.
 
 \subsection{Representing the wave function}
 
-Our starting point of the problem at hand is the GP equation \ref{Gross-Pitaevskii}
+Our starting point of the problem at hand is the GP equation \ref{eq:Gross-Pitaevskii}
 
 \begin{equation} \label{eq:trialwf}
  \Psi_T(\mathbf{r})=\Psi_T(\mathbf{r}_1, \mathbf{r}_2, \dots \mathbf{r}_N,\alpha,\beta)=\prod_i g(\alpha,\beta,\mathbf{r}_i)\prod_{i < j}f(a,|\mathbf{r}_i-\mathbf{r}_j|),
@@ -205,7 +206,7 @@ The easiest way to implement the learning rate is by giving it a constant value.
 
 We begin by making a guess on the parameter $\theta$, then we follow \eq{theta}. The partial derivative of the energy with respect to the variational parameter can be found through the following equation.
 
-\begin{equation}
+\begin{equation} \label{eq:energy_gradient}
 \frac{dE_L}{d\alpha} = 2 \left( \left\langle \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} E_L \right\rangle  - \left\langle  \frac{1}{\Psi_T}\frac{d \Psi_T}{d \alpha} \right\rangle \langle E_L \rangle \right)
 \end{equation}
 
@@ -245,11 +246,11 @@ Gradient descent has some drawbacks, one being that it can get stuck in one loca
 \nabla_{\theta} E^{MB} (\theta) = \sum_{i \in B_k}^M \nabla_{\theta} e_i(\mathbf{x}_i, \mathbf{\theta})
 \end{equation}
 
-\begin{equation} \label{theta_sgd}
+\begin{equation} \label{eq:theta_sgd}
 \theta_{t+1} = \mathbf{\theta_t} - \eta_t \nabla_{\theta} E^{MB} (\theta)
 \end{equation}
 
-Here we devide the data set into smaller minibatches of size $M$ creating $n/M$ batches. We denote these minibatches $B_k$ running from $k = 1...n/M$. Now we solve the gradient descent for the new minibatches and update the parameters according to \ref{theta_sgd}. Not do we only speed up the computational process, but it also introduces stochasticity. 
+Here we devide the data set into smaller minibatches of size $M$ creating $n/M$ batches. We denote these minibatches $B_k$ running from $k = 1...n/M$. Now we solve the gradient descent for the new minibatches and update the parameters according to \ref{eq:theta_sgd}. Not do we only speed up the computational process, but it also introduces stochasticity. 
 
 
 \section{Statistical Errors}

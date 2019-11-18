@@ -2,3 +2,84 @@ Properties to calculate:
 
 energy, mean radial displacement, one-body density, two-body density, learning rate, standard deviation, variation, for RBM, plot the matrix W.
 Confidence interval 
+
+Notes results(draft)
+
+All for 2 particles in 3 dimensions.
+
+Biggest Problem!! $\alpha$ will NOT stabilise, only increases when interaction is on....  
+And method fluctuates too much, energy does not stabilises. Gradient of local energy is to high, solution? 
+Problem with energy being both too high AND too low..
+
+\section{Non-interacting}
+Used the analytic solution of the local energy
+\subsection{Metropolis}
+Run with naive metropolis works fine. 
+Monte Carlo cycles = $10^5$
+
+
+\subsection{Importance}
+Run with numerical calculation of the quantum force $F$ is ok, number of Monte Carlo cycles = $10^5$
+
+Energy stabilises after few gradient descent runs, 100 something runs. 
+
+Optimal $\alpha$ is also reached
+
+Importance sampling with analytical solution to the quantum force also works fine. 
+
+Monte Carlo cycles = $10^5$
+
+\section{Weak interacting}
+Used the analytic AND numerical solution of the local energy
+
+With a = 0.00433, correct total energy = 3.00345
+
+a = 0.433, total energy = 3.3827
+\subsection{Metropolis}
+With numerical calculation of the local energy:
+
+Not correct energy
+
+Total energy = 2.998 ish and alpha approx 0.5006
+
+With analytical calculation of the local energy:
+
+Total energy = 2.998 ish and alpha approx 0.5006
+But the derivative of the energy is high! So something is wrong with the gradient method??
+
+\subsection{Importance}
+Monte Carlo cycles = $10^5$
+With numerical calculation of the local energy:
+
+- and numerical solution of quantum force
+
+Not correct energy nor alpha
+
+Energy stabilises at to low, 2.998 and alpha is to high, above 0.5006
+ 
+- analytical solution of quantum force
+With my own expression the method does not work at all, energy and alpha waaay to high..
+Used Håkons expression of the factor i derivative of $u$, times 2. Do NOT know why this worked. Must find that out.. 
+
+Still not correct energy though, but closer to the correct one. Alpha still to high
+
+Energy goes too high, 3.005 and alpha is to high, approx 0.5033
+
+With analytical calculation of the local energy:
+
+- and numerical solution of quantum force
+
+Energy around 3.011, alpha 0.50326, not entirely correct...
+ 
+- analytical solution of quantum force
+
+Energy around 3.01, alpha 0.50326, not entirely correct...
+
+\section{Strong interaction}
+\subsection{Metropolis}
+
+
+\subsection{Importance}
+
+
+\subsection{Gibbs}
